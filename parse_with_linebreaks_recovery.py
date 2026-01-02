@@ -31,60 +31,91 @@ def normalize_bbox_to_topleft(bbox: dict, page_height: float) -> dict:
     origin = (bbox.get("coord_origin") or "TOPLEFT").upper()
 
     if origin == "BOTTOMLEFT":
-        # Convert: in BOTTOMLEFT, t > b; in TOPLEFT, t < b
         return {"l": l, "r": r, "t": page_height - t, "b": page_height - b}
 
     return {"l": l, "r": r, "t": t, "b": b}
 
 
-def bbox_position_key(bbox: dict, page_height: float, tolerance: float = 5.0) -> Tuple[int, int, int, int]:
+def bboxes_are_similar(
+    bbox1: dict, bbox2: dict, 
+    page_height1: float, page_height2: float, 
+    position_tolerance: float,
+    size_tolerance: float = None,
+) -> bool:
     """
-    Create a quantized position key for grouping similar bboxes.
-    Returns (left, top, width, height) rounded to tolerance grid.
+    Check if two bboxes are at similar positions (within tolerance).
+    
+    Args:
+        position_tolerance: Tolerance for left/top position
+        size_tolerance: Tolerance for width/height. If None, uses position_tolerance.
     """
-    norm = normalize_bbox_to_topleft(bbox, page_height)
-    width = abs(norm["r"] - norm["l"])
-    height = abs(norm["b"] - norm["t"])
+    if size_tolerance is None:
+        size_tolerance = position_tolerance
+        
+    norm1 = normalize_bbox_to_topleft(bbox1, page_height1)
+    norm2 = normalize_bbox_to_topleft(bbox2, page_height2)
+    
+    w1 = abs(norm1["r"] - norm1["l"])
+    h1 = abs(norm1["b"] - norm1["t"])
+    w2 = abs(norm2["r"] - norm2["l"])
+    h2 = abs(norm2["b"] - norm2["t"])
     
     return (
-        round(norm["l"] / tolerance),
-        round(norm["t"] / tolerance),
-        round(width / tolerance),
-        round(height / tolerance),
+        abs(norm1["l"] - norm2["l"]) <= position_tolerance and
+        abs(norm1["t"] - norm2["t"]) <= position_tolerance and
+        abs(w1 - w2) <= size_tolerance and
+        abs(h1 - h2) <= size_tolerance
     )
+
+
+def is_in_header_region(bbox: dict, page_height: float, header_ratio: float = 0.2) -> bool:
+    """
+    Check if a bbox is in the header region of a page (top X% of page).
+    """
+    norm = normalize_bbox_to_topleft(bbox, page_height)
+    top = min(norm["t"], norm["b"])  # Get the top edge
+    return top < (page_height * header_ratio)
 
 
 def find_repeated_elements(
     doc_dict: dict,
     min_page_ratio: float = 0.5,
     position_tolerance: float = 5.0,
-) -> Set[str]:
+    size_tolerance: float = 50.0,
+) -> Tuple[Set[str], Set[str]]:
     """
     Find elements that appear at similar positions across multiple pages.
+    
+    Uses pairwise comparison within tolerance.
     
     Args:
         doc_dict: The Docling document dictionary
         min_page_ratio: Minimum ratio of pages an element must appear on to be 
                         considered repeated (0.5 = at least half the pages)
         position_tolerance: Tolerance in points for position comparison
+        size_tolerance: Tolerance in points for size comparison (more lenient for header images)
     
     Returns:
-        Set of element refs (e.g., "#/texts/5") that should be deduplicated
-        (all occurrences except the first are included)
+        Tuple of:
+        - Set of element refs to deduplicate (all except first occurrence)
+        - Set of element refs that ARE first occurrences of repeated elements
     """
     pages = doc_dict.get("pages", {})
     page_count = len(pages)
     
     if page_count < 2:
-        return set()
+        return set(), set()
     
     min_pages = max(2, int(page_count * min_page_ratio))
     
-    # Build mapping: position_key -> list of (page_no, ref, element_type)
-    position_groups: Dict[Tuple, List[dict]] = defaultdict(list)
+    # Collect all elements with their position info
+    elements: List[dict] = []
     
-    def process_elements(elements: list, element_type: str):
-        for idx, elem in enumerate(elements):
+    def get_page_height(page_no: int) -> float:
+        return pages.get(str(page_no), {}).get("size", {}).get("height", 842)
+    
+    def process_elements(collection: list, element_type: str):
+        for idx, elem in enumerate(collection):
             provs = elem.get("prov", [])
             if not provs:
                 continue
@@ -96,38 +127,211 @@ def find_repeated_elements(
             if not page_no or not bbox:
                 continue
             
-            page_info = pages.get(str(page_no), {})
-            page_height = page_info.get("size", {}).get("height", 842)  # A4 default
+            page_height = get_page_height(page_no)
             
-            pos_key = bbox_position_key(bbox, page_height, position_tolerance)
-            
-            position_groups[pos_key].append({
+            elements.append({
                 "page_no": page_no,
+                "page_height": page_height,
+                "bbox": bbox,
                 "ref": f"#/{element_type}/{idx}",
                 "element_type": element_type,
-                "text": elem.get("text", "")[:100],  # For debugging
+                "text": elem.get("text", ""),
+                "is_header_region": is_in_header_region(bbox, page_height),
             })
     
-    # Process texts and pictures
     process_elements(doc_dict.get("texts", []), "texts")
     process_elements(doc_dict.get("pictures", []), "pictures")
     
-    # Find positions that appear on multiple distinct pages
-    repeated_refs = set()
+    # Group elements by similar position using clustering
+    clusters: List[List[dict]] = []
     
-    for pos_key, occurrences in position_groups.items():
-        # Get unique pages where this position appears
-        pages_with_element = {occ["page_no"] for occ in occurrences}
+    for elem in elements:
+        found_cluster = None
         
-        if len(pages_with_element) >= min_pages:
-            # Sort by page number to keep the first occurrence
-            sorted_occs = sorted(occurrences, key=lambda x: x["page_no"])
+        # Use more lenient size tolerance for pictures (headers vary)
+        elem_size_tol = size_tolerance if elem["element_type"] == "pictures" else position_tolerance
+        
+        for cluster in clusters:
+            rep = cluster[0]
+            rep_size_tol = size_tolerance if rep["element_type"] == "pictures" else position_tolerance
+            use_size_tol = max(elem_size_tol, rep_size_tol)
             
-            # Mark all but the first as duplicates
-            for occ in sorted_occs[1:]:
-                repeated_refs.add(occ["ref"])
+            if bboxes_are_similar(
+                elem["bbox"], rep["bbox"],
+                elem["page_height"], rep["page_height"],
+                position_tolerance,
+                use_size_tol
+            ):
+                found_cluster = cluster
+                break
+        
+        if found_cluster is not None:
+            found_cluster.append(elem)
+        else:
+            clusters.append([elem])
     
-    return repeated_refs
+    # Find clusters that span multiple pages
+    repeated_refs = set()
+    first_occurrence_refs = set()
+    
+    for cluster in clusters:
+        pages_in_cluster = {elem["page_no"] for elem in cluster}
+        
+        if len(pages_in_cluster) >= min_pages:
+            # Sort by page number to identify first occurrence
+            sorted_cluster = sorted(cluster, key=lambda x: x["page_no"])
+            
+            # First occurrence is kept
+            first_occurrence_refs.add(sorted_cluster[0]["ref"])
+            
+            # Rest are duplicates
+            for elem in sorted_cluster[1:]:
+                repeated_refs.add(elem["ref"])
+    
+    return repeated_refs, first_occurrence_refs
+
+
+def get_element_by_ref(doc_dict: dict, ref: str) -> Optional[dict]:
+    """Get an element from doc_dict by its ref string."""
+    if not ref.startswith("#/"):
+        return None
+        
+    parts = ref[2:].split("/")  # Remove "#/" prefix
+    if len(parts) != 2:
+        return None
+    
+    element_type = parts[0]
+    try:
+        idx = int(parts[1])
+    except ValueError:
+        return None
+    
+    collection = doc_dict.get(element_type, [])
+    if idx < len(collection):
+        return collection[idx]
+    return None
+
+
+def extract_header_content(
+    doc_dict: dict, 
+    first_occurrence_refs: Set[str],
+    repeated_refs: Set[str],
+) -> str:
+    """
+    Extract text content from first-occurrence header elements.
+    Only extracts from PAGE 1 to avoid duplicates from variant headers on other pages.
+    
+    Returns markdown-formatted header content.
+    """
+    header_texts = []
+    seen_texts = set()  # Dedupe by normalized text content
+    
+    # Only process first occurrences from page 1
+    page1_picture_refs = []
+    page1_text_refs = []
+    
+    for ref in first_occurrence_refs:
+        elem = get_element_by_ref(doc_dict, ref)
+        if not elem:
+            continue
+            
+        provs = elem.get("prov", [])
+        if not provs:
+            continue
+            
+        page_no = provs[0].get("page_no", 0)
+        if page_no != 1:
+            continue
+        
+        if "pictures" in ref:
+            page1_picture_refs.append(ref)
+        elif "texts" in ref:
+            page1_text_refs.append(ref)
+    
+    def add_text(text: str, ref: str = None):
+        """Add text if not already seen (by normalized content)."""
+        normalized = text.strip().lower()
+        # Also check if this text is a subset/superset of existing texts
+        if not normalized or normalized in seen_texts:
+            return
+        
+        # Check if this text contains or is contained by existing texts
+        for existing in list(seen_texts):
+            if normalized in existing or existing in normalized:
+                # Skip if this is contained in something we already have
+                if normalized in existing:
+                    return
+                # Remove the shorter one if we have a longer version
+                seen_texts.discard(existing)
+                header_texts[:] = [t for t in header_texts if t.strip().lower() != existing]
+        
+        seen_texts.add(normalized)
+        header_texts.append(text.strip())
+    
+    # Extract from page 1 pictures' children
+    for ref in sorted(page1_picture_refs):
+        elem = get_element_by_ref(doc_dict, ref)
+        if not elem:
+            continue
+        
+        children = elem.get("children", [])
+        for child_ref_obj in children:
+            child_ref = child_ref_obj.get("$ref", "")
+            
+            # Skip if this child is marked as deduplicated
+            if child_ref in repeated_refs:
+                continue
+            
+            child_elem = get_element_by_ref(doc_dict, child_ref)
+            if child_elem:
+                text = child_elem.get("text", "").strip()
+                if text:
+                    add_text(text, child_ref)
+    
+    # Extract from standalone page 1 text elements (that are first occurrences)
+    for ref in sorted(page1_text_refs):
+        elem = get_element_by_ref(doc_dict, ref)
+        if not elem:
+            continue
+        
+        # Skip if this element is a child of a picture (already processed)
+        parent_ref = elem.get("parent", {}).get("$ref", "")
+        if "pictures" in parent_ref:
+            continue
+        
+        text = elem.get("text", "").strip()
+        if text:
+            add_text(text, ref)
+    
+    if not header_texts:
+        return ""
+    
+    # Sort header texts to put company name first, then address, then business info
+    def sort_key(text: str) -> tuple:
+        text_lower = text.lower()
+        # Company name / logo text (short, distinctive)
+        if len(text) < 20 and not any(c.isdigit() for c in text[:5]):
+            return (0, text)
+        # Address (starts with street name)
+        if any(word in text_lower for word in ["allee", "straat", "weg", "laan", "plein"]):
+            return (1, text)
+        # Postal code / city
+        if text[:4].isdigit() or "zwolle" in text_lower:
+            return (2, text)
+        # Phone
+        if text.replace(" ", "").isdigit():
+            return (3, text)
+        # Email
+        if "@" in text:
+            return (4, text)
+        # Business registration (KvK, BTW, IBAN)
+        if any(word in text_lower for word in ["k.v.k", "kvk", "btw", "iban", "bic"]):
+            return (5, text)
+        return (6, text)
+    
+    header_texts.sort(key=sort_key)
+    
+    return "\n".join(header_texts) + "\n"
 
 
 def deduplicate_document(doc_dict: dict, repeated_refs: Set[str]) -> dict:
@@ -137,40 +341,22 @@ def deduplicate_document(doc_dict: dict, repeated_refs: Set[str]) -> dict:
     Elements in repeated_refs are:
     - Moved to content_layer "furniture" 
     - Removed from body.children
-    - Added to furniture.children (first occurrence only, rest excluded)
-    
-    Args:
-        doc_dict: Original Docling document dictionary
-        repeated_refs: Set of refs to deduplicate (from find_repeated_elements)
-    
-    Returns:
-        New document dictionary with repeated elements handled
     """
     if not repeated_refs:
         return doc_dict
     
     result = copy.deepcopy(doc_dict)
     
-    # Track which elements are repeated (including first occurrence)
-    # We need to identify ALL occurrences to move the first to furniture
-    all_repeated_positions = set()
-    
-    # Find first occurrences by removing them from repeated_refs logic
-    first_occurrence_refs = set()
-    
-    # Group repeated_refs by their position pattern to find first occurrences
-    # This is a bit tricky - we need to re-examine the structure
-    
-    # Simpler approach: mark repeated elements with content_layer = furniture
-    # and filter them from body.children
-    
     for ref in repeated_refs:
-        parts = ref.split("/")
-        if len(parts) != 3:
+        parts = ref[2:].split("/") if ref.startswith("#/") else ref.split("/")
+        if len(parts) != 2:
             continue
         
-        element_type = parts[1]  # "texts" or "pictures"
-        idx = int(parts[2])
+        element_type = parts[0]
+        try:
+            idx = int(parts[1])
+        except ValueError:
+            continue
         
         collection = result.get(element_type, [])
         if idx < len(collection):
@@ -185,37 +371,137 @@ def deduplicate_document(doc_dict: dict, repeated_refs: Set[str]) -> dict:
             if child.get("$ref") not in repeated_refs
         ]
     
-    # Optionally: add first occurrences to furniture.children
-    # (For now, we just mark them - the markdown export will skip furniture anyway)
-    
     return result
 
 
-def get_deduplication_report(doc_dict: dict, repeated_refs: Set[str]) -> str:
+def remove_repeated_from_markdown(
+    md: str, 
+    doc_dict: dict, 
+    repeated_refs: Set[str],
+    first_occurrence_refs: Set[str],
+) -> str:
     """
-    Generate a human-readable report of what was deduplicated.
+    Post-process markdown to:
+    1. Remove text from repeated elements
+    2. Remove duplicate <!-- image --> markers for header images
+    3. Prepend first-occurrence header content at the beginning
     """
-    if not repeated_refs:
-        return "No repeated elements detected."
+    result = md
     
-    lines = [f"Detected {len(repeated_refs)} repeated element occurrences:"]
+    # Count repeated pictures (header images to remove)
+    repeated_picture_count = sum(1 for ref in repeated_refs if "pictures" in ref)
     
-    for ref in sorted(repeated_refs):
-        parts = ref.split("/")
-        if len(parts) != 3:
+    # Remove repeated text content
+    for ref in repeated_refs:
+        if "texts" not in ref:
             continue
         
-        element_type = parts[1]
-        idx = int(parts[2])
+        elem = get_element_by_ref(doc_dict, ref)
+        if not elem:
+            continue
         
-        collection = doc_dict.get(element_type, [])
-        if idx < len(collection):
-            elem = collection[idx]
-            text_preview = elem.get("text", "")[:50]
-            prov = (elem.get("prov") or [{}])[0]
-            page_no = prov.get("page_no", "?")
+        text = elem.get("text", "").strip()
+        if not text:
+            continue
+        
+        # Try to remove exact matches
+        for pattern in [
+            f"\n{text}\n",
+            f"\n{text}",
+            f"{text}\n",
+        ]:
+            if pattern in result:
+                result = result.replace(pattern, "\n", 1)
+                break
+    
+    # Handle image markers
+    # Strategy: Keep first image marker (for header), remove subsequent ones that 
+    # appear in header positions (before main content headings)
+    image_marker = "<!-- image -->"
+    
+    if repeated_picture_count > 0 and image_marker in result:
+        lines = result.split("\n")
+        new_lines = []
+        image_count = 0
+        in_header_zone = True  # Start in header zone
+        
+        for i, line in enumerate(lines):
+            stripped = line.strip()
             
-            lines.append(f"  - {ref} (page {page_no}): {text_preview!r}...")
+            # Detect when we exit the header zone (first real heading or substantial content)
+            if stripped.startswith("## ") and not stripped.startswith("## _"):
+                in_header_zone = False
+            
+            if stripped == image_marker:
+                if in_header_zone:
+                    # In header zone: keep only the first image marker
+                    if image_count == 0:
+                        new_lines.append(line)
+                    # Skip subsequent header images
+                else:
+                    # Outside header zone: keep all image markers (content images)
+                    new_lines.append(line)
+                image_count += 1
+            else:
+                new_lines.append(line)
+        
+        result = "\n".join(new_lines)
+    
+    # Clean up multiple blank lines
+    while "\n\n\n" in result:
+        result = result.replace("\n\n\n", "\n\n")
+    
+    # Extract and prepend header content
+    header_content = extract_header_content(doc_dict, first_occurrence_refs, repeated_refs)
+    
+    if header_content:
+        # Find where to insert header (after first <!-- image --> if present)
+        if result.strip().startswith(image_marker):
+            marker_pos = result.find(image_marker)
+            marker_end = marker_pos + len(image_marker)
+            # Insert header content after the image marker
+            result = (
+                result[:marker_end] + 
+                "\n\n" + header_content + 
+                result[marker_end:].lstrip("\n")
+            )
+        else:
+            # Prepend header at the very beginning
+            result = header_content + "\n" + result
+    
+    return result.strip()
+
+
+def get_deduplication_report(
+    doc_dict: dict, 
+    repeated_refs: Set[str], 
+    first_occurrence_refs: Set[str],
+) -> str:
+    """Generate a human-readable report of what was deduplicated."""
+    lines = []
+    
+    if first_occurrence_refs:
+        lines.append(f"First occurrences (kept as header, {len(first_occurrence_refs)} elements):")
+        for ref in sorted(first_occurrence_refs):
+            elem = get_element_by_ref(doc_dict, ref)
+            if elem:
+                text_preview = elem.get("text", "")[:50] or "(picture)"
+                prov = (elem.get("prov") or [{}])[0]
+                page_no = prov.get("page_no", "?")
+                lines.append(f"  + {ref} (page {page_no}): {text_preview!r}...")
+    
+    if repeated_refs:
+        lines.append(f"\nDeduplicated ({len(repeated_refs)} element occurrences removed):")
+        for ref in sorted(repeated_refs):
+            elem = get_element_by_ref(doc_dict, ref)
+            if elem:
+                text_preview = elem.get("text", "")[:50] or "(picture)"
+                prov = (elem.get("prov") or [{}])[0]
+                page_no = prov.get("page_no", "?")
+                lines.append(f"  - {ref} (page {page_no}): {text_preview!r}...")
+    
+    if not lines:
+        return "No repeated elements detected."
     
     return "\n".join(lines)
 
@@ -270,74 +556,6 @@ def recover_linebreaks_in_markdown(pdf_path: Path, doc_dict: dict, md: str) -> s
 
 
 # ----------------------------
-# Markdown export with deduplication
-# ----------------------------
-
-def export_markdown_deduplicated(doc_dict: dict, repeated_refs: Set[str]) -> str:
-    """
-    Export markdown while excluding repeated elements.
-    
-    This is a simplified approach - we filter the texts that would be 
-    exported based on the repeated_refs set.
-    """
-    # For a proper implementation, we'd need to walk the document tree
-    # For now, we'll use Docling's built-in export on a filtered document
-    
-    # The deduplicate_document function already marks elements,
-    # but Docling's export_to_markdown doesn't respect our custom flags.
-    # 
-    # Alternative: manually build markdown from the document structure,
-    # or post-process the markdown to remove duplicates.
-    
-    # For now, return None to indicate we should use post-processing
-    return None
-
-
-def remove_repeated_from_markdown(md: str, doc_dict: dict, repeated_refs: Set[str]) -> str:
-    """
-    Post-process markdown to remove text from repeated elements.
-    
-    This is a best-effort approach that removes exact text matches.
-    """
-    result = md
-    
-    for ref in repeated_refs:
-        parts = ref.split("/")
-        if len(parts) != 3:
-            continue
-        
-        element_type = parts[1]
-        idx = int(parts[2])
-        
-        collection = doc_dict.get(element_type, [])
-        if idx >= len(collection):
-            continue
-        
-        elem = collection[idx]
-        text = elem.get("text", "").strip()
-        
-        if not text:
-            continue
-        
-        # Try to remove exact matches (be careful with partial matches)
-        # Only remove if it appears as a whole line or paragraph
-        for pattern in [
-            f"\n{text}\n",      # Standalone paragraph
-            f"\n{text}",        # End of document
-            f"{text}\n",        # Start of document
-        ]:
-            if pattern in result:
-                result = result.replace(pattern, "\n", 1)
-                break
-    
-    # Clean up multiple blank lines
-    while "\n\n\n" in result:
-        result = result.replace("\n\n\n", "\n\n")
-    
-    return result.strip()
-
-
-# ----------------------------
 # Config / model utilities
 # ----------------------------
 
@@ -383,11 +601,6 @@ def _import_symbol(dotted_path: str):
 
 
 def _resolve_special_objects(obj: Any) -> Any:
-    """
-    Allows config literals like:
-      {"__class__": "docling.datamodel.pipeline_options.TesseractCliOcrOptions", ...}
-      {"__enum__": "docling.datamodel.pipeline_options.TableFormerMode.ACCURATE"}
-    """
     if isinstance(obj, list):
         return [_resolve_special_objects(x) for x in obj]
 
@@ -418,66 +631,36 @@ def _resolve_special_objects(obj: Any) -> Any:
 
 
 def _model_fields(model_cls) -> Optional[Set[str]]:
-    # pydantic v2
     if hasattr(model_cls, "model_fields"):
         return set(model_cls.model_fields.keys())
-    # pydantic v1
     if hasattr(model_cls, "__fields__"):
         return set(model_cls.__fields__.keys())
     return None
 
 
 def validate_dict_keys_against_model(model_instance, data: dict, path: str, strict: bool):
-    """
-    Best-effort strict key validation:
-    - checks unknown keys at current level
-    - recurses into nested option objects (accelerator_options, layout_options, etc.)
-      by looking at the *type* of the default attribute on the model instance.
-    """
     if not strict:
         return
 
     model_cls = model_instance.__class__
     fields = _model_fields(model_cls)
     if fields is None:
-        return  # can't validate
+        return
 
     unknown = set(data.keys()) - fields
     if unknown:
         raise ValueError(f"Unknown config keys at {path}: {sorted(unknown)}")
 
-    # recurse into nested pydantic-ish objects
     for k, v in data.items():
         if not isinstance(v, dict):
             continue
         child_obj = getattr(model_instance, k, None)
         if child_obj is None:
             continue
-        # nested model?
         child_fields = _model_fields(child_obj.__class__)
         if child_fields is None:
             continue
         validate_dict_keys_against_model(child_obj, v, f"{path}.{k}", strict)
-
-
-def build_pydantic_model(model_cls, data: dict, path: str, strict: bool):
-    """
-    Validate keys (strict) then model_validate/parse_obj.
-    """
-    # Create a default instance for recursion-based key validation
-    try:
-        default_inst = model_cls()  # works for PdfPipelineOptions and nested options
-    except TypeError:
-        default_inst = None
-
-    if default_inst is not None:
-        validate_dict_keys_against_model(default_inst, data, path, strict)
-
-    if hasattr(model_cls, "model_validate"):
-        return model_cls.model_validate(data)
-    if hasattr(model_cls, "parse_obj"):
-        return model_cls.parse_obj(data)
-    return model_cls(**data)
 
 
 def make_run_id(profile: str, config: dict) -> str:
@@ -486,22 +669,16 @@ def make_run_id(profile: str, config: dict) -> str:
     ts = time.strftime("%Y%m%d-%H%M%S")
     return f"{ts}-{profile}-{cfg_hash}"
 
+
 def _allowed_keys(obj) -> Optional[Set[str]]:
-    # pydantic v2
     if hasattr(obj.__class__, "model_fields"):
         return set(obj.__class__.model_fields.keys())
-    # pydantic v1
     if hasattr(obj.__class__, "__fields__"):
         return set(obj.__class__.__fields__.keys())
     return None
 
 
 def apply_config_to_object(obj: Any, cfg: Dict[str, Any], path: str, strict: bool):
-    """
-    Recursively apply cfg onto obj WITHOUT replacing nested option objects by default.
-    If a value is a dict, we recurse into the existing attribute object.
-    If a value is a concrete object (e.g. produced by __class__/__type__), we replace the attribute.
-    """
     if not isinstance(cfg, dict):
         raise ValueError(f"{path} must be an object/dict")
 
@@ -512,7 +689,6 @@ def apply_config_to_object(obj: Any, cfg: Dict[str, Any], path: str, strict: boo
             if unknown:
                 raise ValueError(f"Unknown config keys at {path}: {sorted(unknown)}")
         else:
-            # non-pydantic object: best-effort attribute check
             unknown = [k for k in cfg.keys() if not hasattr(obj, k)]
             if unknown:
                 raise ValueError(f"Unknown config keys at {path}: {unknown}")
@@ -521,14 +697,11 @@ def apply_config_to_object(obj: Any, cfg: Dict[str, Any], path: str, strict: boo
         cur = getattr(obj, k, None)
 
         if isinstance(v, dict) and cur is not None:
-            # Deep-apply into existing nested options object
             apply_config_to_object(cur, v, f"{path}.{k}", strict)
         else:
-            # Scalars, lists, or already-resolved objects (from __class__/__type__/__enum__)
             setattr(obj, k, v)
 
     return obj
-
 
 
 # ----------------------------
@@ -540,18 +713,18 @@ def main():
     ap.add_argument("pdf", type=Path)
     ap.add_argument("outdir", type=Path, nargs="?", default=Path("out"))
 
-    ap.add_argument("--profile", default="baseline", help="Profile name (loads configs/<profile>.json).")
+    ap.add_argument("--profile", default="baseline", help="Profile name.")
     ap.add_argument("--configs-dir", type=Path, default=Path("configs"))
-    ap.add_argument("--config-file", type=Path, help="Explicit JSON file to overlay on baseline (optional).")
+    ap.add_argument("--config-file", type=Path, help="Explicit JSON config file.")
 
-    ap.add_argument("--set", action="append", default=[], help="Override config keys via dotpath, e.g. --set docling.pipeline_options.do_ocr=false")
+    ap.add_argument("--set", action="append", default=[], help="Override config keys.")
     
     # Deduplication options
-    ap.add_argument("--no-dedupe", action="store_true", help="Disable repeated header/footer deduplication.")
-    ap.add_argument("--dedupe-min-ratio", type=float, default=0.5, 
-                    help="Minimum page ratio for element to be considered repeated (default: 0.5)")
-    ap.add_argument("--dedupe-tolerance", type=float, default=5.0,
-                    help="Position tolerance in points for deduplication (default: 5.0)")
+    ap.add_argument("--no-dedupe", action="store_true", help="Disable deduplication.")
+    ap.add_argument("--dedupe-min-ratio", type=float, default=None)
+    ap.add_argument("--dedupe-tolerance", type=float, default=None)
+    ap.add_argument("--dedupe-size-tolerance", type=float, default=None,
+                    help="Size tolerance for picture deduplication (default: 50.0)")
 
     args = ap.parse_args()
     args.outdir.mkdir(parents=True, exist_ok=True)
@@ -559,7 +732,7 @@ def main():
     def load_json(path: Path) -> dict:
         return json.loads(path.read_text(encoding="utf-8"))
 
-    # ---- Load baseline + overlay (deep-merge) ----
+    # Load configs
     baseline_path = args.configs_dir / "baseline.json"
     profile_path = args.configs_dir / f"{args.profile}.json"
 
@@ -573,39 +746,43 @@ def main():
 
     overlay_cfg = {}
     if args.config_file:
-        # Explicit overlay file on top of baseline
         overlay_cfg = load_json(args.config_file)
         loaded_paths.append(str(args.config_file))
     else:
-        # Profile overlay, else fallback to baseline only
         if profile_path.exists():
             overlay_cfg = load_json(profile_path)
             loaded_paths.append(str(profile_path))
         else:
             if args.profile != "baseline":
-                used_fallback = True  # asked for tuned profile, but only baseline exists
-            overlay_cfg = {}
+                used_fallback = True
 
     config = deep_merge(base_cfg, overlay_cfg)
-
-    # Force profile id to the CLI value (folder grouping key)
     config["profile"] = args.profile
 
-    # Apply --set overrides last
     for item in args.set:
         if "=" not in item:
             raise SystemExit(f"--set must look like key=value, got: {item}")
         k, v = item.split("=", 1)
         set_dotpath(config, k.strip(), parse_value(v.strip()))
 
-    # ---- Run output dir ----
+    # Get deduplication settings
+    dedupe_cfg = config.get("deduplication", {})
+    
+    dedupe_enabled = not args.no_dedupe
+    if "enabled" in dedupe_cfg and not args.no_dedupe:
+        dedupe_enabled = dedupe_cfg.get("enabled", True)
+    
+    dedupe_min_ratio = args.dedupe_min_ratio or dedupe_cfg.get("min_page_ratio", 0.5)
+    dedupe_tolerance = args.dedupe_tolerance or dedupe_cfg.get("position_tolerance", 5.0)
+    dedupe_size_tolerance = args.dedupe_size_tolerance or dedupe_cfg.get("size_tolerance", 50.0)
+
+    # Run output dir
     run_id = make_run_id(config["profile"], config)
     base = args.pdf.stem
     run_dir = args.outdir / base / config["profile"] / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    # ---- Build Docling options from config (pass-through) ----
-    # All Docling settings should live under: config["docling"]
+    # Build Docling options
     docling_cfg = copy.deepcopy(config.get("docling", {}))
     docling_cfg = _resolve_special_objects(docling_cfg)
     strict = bool(docling_cfg.get("strict", True))
@@ -613,20 +790,16 @@ def main():
     pipeline_data = docling_cfg.get("pipeline_options", {})
     if pipeline_data.get("do_ocr", False):
         oo = pipeline_data.get("ocr_options")
-    if isinstance(oo, dict) and "kind" not in oo and "__class__" not in oo:
-        oo["kind"] = docling_cfg.get("ocr_engine", "auto")
-        pipeline_data["ocr_options"] = oo
+        if isinstance(oo, dict) and "kind" not in oo and "__class__" not in oo:
+            oo["kind"] = docling_cfg.get("ocr_engine", "auto")
+            pipeline_data["ocr_options"] = oo
     if not isinstance(pipeline_data, dict):
         raise ValueError("config.docling.pipeline_options must be a JSON object")
 
-    # pipeline = build_pydantic_model(PdfPipelineOptions, pipeline_data, "docling.pipeline_options", strict=strict)
     pipeline = PdfPipelineOptions()
     apply_config_to_object(pipeline, pipeline_data, "docling.pipeline_options", strict=strict)
 
-    # PdfFormatOption: allow setting backend and other pdf-format-specific knobs
-    pdf_opt_data = docling_cfg.get("pdf_format_option", {})
-    if pdf_opt_data is None:
-        pdf_opt_data = {}
+    pdf_opt_data = docling_cfg.get("pdf_format_option", {}) or {}
     if not isinstance(pdf_opt_data, dict):
         raise ValueError("config.docling.pdf_format_option must be a JSON object")
 
@@ -634,10 +807,13 @@ def main():
     pdf_opt_data = dict(pdf_opt_data)
     pdf_opt_data["pipeline_options"] = pipeline
 
-    # Validate keys for PdfFormatOption (requires a pipeline_options instance)
     default_pdf_opt = PdfFormatOption(pipeline_options=PdfPipelineOptions())
-    validate_dict_keys_against_model(default_pdf_opt, {k: v for k, v in pdf_opt_data.items() if k != "pipeline_options"},
-                                     "docling.pdf_format_option", strict)
+    validate_dict_keys_against_model(
+        default_pdf_opt, 
+        {k: v for k, v in pdf_opt_data.items() if k != "pipeline_options"},
+        "docling.pdf_format_option", 
+        strict
+    )
 
     pdf_format_option = PdfFormatOption(**pdf_opt_data)
 
@@ -645,49 +821,52 @@ def main():
         format_options={InputFormat.PDF: pdf_format_option}
     )
 
-    # ---- Convert ----
+    # Convert
     result = converter.convert(str(args.pdf))
     doc = result.document
 
-    # ---- Exports ----
+    # Exports
     doc_dict = doc.export_to_dict()
     md = doc.export_to_markdown()
 
-    # ---- Deduplication ----
+    # Deduplication
     repeated_refs: Set[str] = set()
+    first_occurrence_refs: Set[str] = set()
     deduped_doc_dict = doc_dict
     deduped_md = md
     
-    if not args.no_dedupe:
-        repeated_refs = find_repeated_elements(
+    if dedupe_enabled:
+        repeated_refs, first_occurrence_refs = find_repeated_elements(
             doc_dict,
-            min_page_ratio=args.dedupe_min_ratio,
-            position_tolerance=args.dedupe_tolerance,
+            min_page_ratio=dedupe_min_ratio,
+            position_tolerance=dedupe_tolerance,
+            size_tolerance=dedupe_size_tolerance,
         )
         
-        if repeated_refs:
+        if repeated_refs or first_occurrence_refs:
+            print(f"Found {len(first_occurrence_refs)} first-occurrence header elements")
             print(f"Found {len(repeated_refs)} repeated element occurrences to deduplicate")
             
-            # Create deduplicated document dict
             deduped_doc_dict = deduplicate_document(doc_dict, repeated_refs)
+            deduped_md = remove_repeated_from_markdown(
+                md, doc_dict, repeated_refs, first_occurrence_refs
+            )
             
-            # Create deduplicated markdown
-            deduped_md = remove_repeated_from_markdown(md, doc_dict, repeated_refs)
-            
-            # Write deduplication report
-            report = get_deduplication_report(doc_dict, repeated_refs)
+            report = get_deduplication_report(doc_dict, repeated_refs, first_occurrence_refs)
             (run_dir / f"{base}.dedupe_report.txt").write_text(report, encoding="utf-8")
             print(report)
 
-    # Save original (non-deduplicated) outputs
-    (run_dir / f"{base}.json").write_text(json.dumps(doc_dict, ensure_ascii=False, indent=2), encoding="utf-8")
+    # Save outputs
+    (run_dir / f"{base}.json").write_text(
+        json.dumps(doc_dict, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     (run_dir / f"{base}.md").write_text(md, encoding="utf-8")
 
-    # Save deduplicated outputs
-    (run_dir / f"{base}.deduped.json").write_text(json.dumps(deduped_doc_dict, ensure_ascii=False, indent=2), encoding="utf-8")
+    (run_dir / f"{base}.deduped.json").write_text(
+        json.dumps(deduped_doc_dict, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     (run_dir / f"{base}.deduped.md").write_text(deduped_md, encoding="utf-8")
 
-    # Layout recovery on deduplicated markdown
     layout_md = recover_linebreaks_in_markdown(args.pdf, deduped_doc_dict, deduped_md)
     (run_dir / f"{base}.layout.md").write_text(layout_md, encoding="utf-8")
 
@@ -696,7 +875,7 @@ def main():
         viewer_dir = export_hover_viewer(run_dir, args.pdf, doc_dict, render_scale=viewer_scale)
         print(f"Viewer written to: {viewer_dir}")
 
-    # ---- Run meta ----
+    # Run meta
     (run_dir / "run_meta.json").write_text(
         json.dumps(
             {
@@ -709,10 +888,11 @@ def main():
                 "config": config,
                 "docling_status": str(result.status),
                 "deduplication": {
-                    "enabled": not args.no_dedupe,
-                    "min_page_ratio": args.dedupe_min_ratio,
-                    "position_tolerance": args.dedupe_tolerance,
-                    "repeated_elements_found": len(repeated_refs),
+                    "enabled": dedupe_enabled,
+                    "min_page_ratio": dedupe_min_ratio,
+                    "position_tolerance": dedupe_tolerance,
+                    "size_tolerance": dedupe_size_tolerance,
+                    "first_occurrence_refs": sorted(first_occurrence_refs),
                     "repeated_refs": sorted(repeated_refs),
                 },
                 "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),
