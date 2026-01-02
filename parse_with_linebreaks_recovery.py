@@ -5,8 +5,9 @@ import hashlib
 import importlib
 import json
 import time
+from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, Optional, Set
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 import fitz  # PyMuPDF
 
@@ -15,6 +16,208 @@ from docling.datamodel.pipeline_options import PdfPipelineOptions
 from docling.document_converter import DocumentConverter, PdfFormatOption
 
 from viewer_export import export_hover_viewer
+
+
+# ----------------------------
+# Repeated element detection
+# ----------------------------
+
+def normalize_bbox_to_topleft(bbox: dict, page_height: float) -> dict:
+    """
+    Normalize bbox to TOPLEFT origin for consistent comparison.
+    Returns a new dict with l, t, r, b in TOPLEFT coordinates.
+    """
+    l, r, t, b = bbox["l"], bbox["r"], bbox["t"], bbox["b"]
+    origin = (bbox.get("coord_origin") or "TOPLEFT").upper()
+
+    if origin == "BOTTOMLEFT":
+        # Convert: in BOTTOMLEFT, t > b; in TOPLEFT, t < b
+        return {"l": l, "r": r, "t": page_height - t, "b": page_height - b}
+
+    return {"l": l, "r": r, "t": t, "b": b}
+
+
+def bbox_position_key(bbox: dict, page_height: float, tolerance: float = 5.0) -> Tuple[int, int, int, int]:
+    """
+    Create a quantized position key for grouping similar bboxes.
+    Returns (left, top, width, height) rounded to tolerance grid.
+    """
+    norm = normalize_bbox_to_topleft(bbox, page_height)
+    width = abs(norm["r"] - norm["l"])
+    height = abs(norm["b"] - norm["t"])
+    
+    return (
+        round(norm["l"] / tolerance),
+        round(norm["t"] / tolerance),
+        round(width / tolerance),
+        round(height / tolerance),
+    )
+
+
+def find_repeated_elements(
+    doc_dict: dict,
+    min_page_ratio: float = 0.5,
+    position_tolerance: float = 5.0,
+) -> Set[str]:
+    """
+    Find elements that appear at similar positions across multiple pages.
+    
+    Args:
+        doc_dict: The Docling document dictionary
+        min_page_ratio: Minimum ratio of pages an element must appear on to be 
+                        considered repeated (0.5 = at least half the pages)
+        position_tolerance: Tolerance in points for position comparison
+    
+    Returns:
+        Set of element refs (e.g., "#/texts/5") that should be deduplicated
+        (all occurrences except the first are included)
+    """
+    pages = doc_dict.get("pages", {})
+    page_count = len(pages)
+    
+    if page_count < 2:
+        return set()
+    
+    min_pages = max(2, int(page_count * min_page_ratio))
+    
+    # Build mapping: position_key -> list of (page_no, ref, element_type)
+    position_groups: Dict[Tuple, List[dict]] = defaultdict(list)
+    
+    def process_elements(elements: list, element_type: str):
+        for idx, elem in enumerate(elements):
+            provs = elem.get("prov", [])
+            if not provs:
+                continue
+            
+            prov = provs[0]
+            page_no = prov.get("page_no")
+            bbox = prov.get("bbox")
+            
+            if not page_no or not bbox:
+                continue
+            
+            page_info = pages.get(str(page_no), {})
+            page_height = page_info.get("size", {}).get("height", 842)  # A4 default
+            
+            pos_key = bbox_position_key(bbox, page_height, position_tolerance)
+            
+            position_groups[pos_key].append({
+                "page_no": page_no,
+                "ref": f"#/{element_type}/{idx}",
+                "element_type": element_type,
+                "text": elem.get("text", "")[:100],  # For debugging
+            })
+    
+    # Process texts and pictures
+    process_elements(doc_dict.get("texts", []), "texts")
+    process_elements(doc_dict.get("pictures", []), "pictures")
+    
+    # Find positions that appear on multiple distinct pages
+    repeated_refs = set()
+    
+    for pos_key, occurrences in position_groups.items():
+        # Get unique pages where this position appears
+        pages_with_element = {occ["page_no"] for occ in occurrences}
+        
+        if len(pages_with_element) >= min_pages:
+            # Sort by page number to keep the first occurrence
+            sorted_occs = sorted(occurrences, key=lambda x: x["page_no"])
+            
+            # Mark all but the first as duplicates
+            for occ in sorted_occs[1:]:
+                repeated_refs.add(occ["ref"])
+    
+    return repeated_refs
+
+
+def deduplicate_document(doc_dict: dict, repeated_refs: Set[str]) -> dict:
+    """
+    Create a deduplicated copy of the document dictionary.
+    
+    Elements in repeated_refs are:
+    - Moved to content_layer "furniture" 
+    - Removed from body.children
+    - Added to furniture.children (first occurrence only, rest excluded)
+    
+    Args:
+        doc_dict: Original Docling document dictionary
+        repeated_refs: Set of refs to deduplicate (from find_repeated_elements)
+    
+    Returns:
+        New document dictionary with repeated elements handled
+    """
+    if not repeated_refs:
+        return doc_dict
+    
+    result = copy.deepcopy(doc_dict)
+    
+    # Track which elements are repeated (including first occurrence)
+    # We need to identify ALL occurrences to move the first to furniture
+    all_repeated_positions = set()
+    
+    # Find first occurrences by removing them from repeated_refs logic
+    first_occurrence_refs = set()
+    
+    # Group repeated_refs by their position pattern to find first occurrences
+    # This is a bit tricky - we need to re-examine the structure
+    
+    # Simpler approach: mark repeated elements with content_layer = furniture
+    # and filter them from body.children
+    
+    for ref in repeated_refs:
+        parts = ref.split("/")
+        if len(parts) != 3:
+            continue
+        
+        element_type = parts[1]  # "texts" or "pictures"
+        idx = int(parts[2])
+        
+        collection = result.get(element_type, [])
+        if idx < len(collection):
+            collection[idx]["content_layer"] = "furniture"
+            collection[idx]["_deduplicated"] = True
+    
+    # Update body.children to exclude deduplicated elements
+    body = result.get("body", {})
+    if "children" in body:
+        body["children"] = [
+            child for child in body["children"]
+            if child.get("$ref") not in repeated_refs
+        ]
+    
+    # Optionally: add first occurrences to furniture.children
+    # (For now, we just mark them - the markdown export will skip furniture anyway)
+    
+    return result
+
+
+def get_deduplication_report(doc_dict: dict, repeated_refs: Set[str]) -> str:
+    """
+    Generate a human-readable report of what was deduplicated.
+    """
+    if not repeated_refs:
+        return "No repeated elements detected."
+    
+    lines = [f"Detected {len(repeated_refs)} repeated element occurrences:"]
+    
+    for ref in sorted(repeated_refs):
+        parts = ref.split("/")
+        if len(parts) != 3:
+            continue
+        
+        element_type = parts[1]
+        idx = int(parts[2])
+        
+        collection = doc_dict.get(element_type, [])
+        if idx < len(collection):
+            elem = collection[idx]
+            text_preview = elem.get("text", "")[:50]
+            prov = (elem.get("prov") or [{}])[0]
+            page_no = prov.get("page_no", "?")
+            
+            lines.append(f"  - {ref} (page {page_no}): {text_preview!r}...")
+    
+    return "\n".join(lines)
 
 
 # ----------------------------
@@ -64,6 +267,74 @@ def recover_linebreaks_in_markdown(pdf_path: Path, doc_dict: dict, md: str) -> s
 
     pdf.close()
     return out
+
+
+# ----------------------------
+# Markdown export with deduplication
+# ----------------------------
+
+def export_markdown_deduplicated(doc_dict: dict, repeated_refs: Set[str]) -> str:
+    """
+    Export markdown while excluding repeated elements.
+    
+    This is a simplified approach - we filter the texts that would be 
+    exported based on the repeated_refs set.
+    """
+    # For a proper implementation, we'd need to walk the document tree
+    # For now, we'll use Docling's built-in export on a filtered document
+    
+    # The deduplicate_document function already marks elements,
+    # but Docling's export_to_markdown doesn't respect our custom flags.
+    # 
+    # Alternative: manually build markdown from the document structure,
+    # or post-process the markdown to remove duplicates.
+    
+    # For now, return None to indicate we should use post-processing
+    return None
+
+
+def remove_repeated_from_markdown(md: str, doc_dict: dict, repeated_refs: Set[str]) -> str:
+    """
+    Post-process markdown to remove text from repeated elements.
+    
+    This is a best-effort approach that removes exact text matches.
+    """
+    result = md
+    
+    for ref in repeated_refs:
+        parts = ref.split("/")
+        if len(parts) != 3:
+            continue
+        
+        element_type = parts[1]
+        idx = int(parts[2])
+        
+        collection = doc_dict.get(element_type, [])
+        if idx >= len(collection):
+            continue
+        
+        elem = collection[idx]
+        text = elem.get("text", "").strip()
+        
+        if not text:
+            continue
+        
+        # Try to remove exact matches (be careful with partial matches)
+        # Only remove if it appears as a whole line or paragraph
+        for pattern in [
+            f"\n{text}\n",      # Standalone paragraph
+            f"\n{text}",        # End of document
+            f"{text}\n",        # Start of document
+        ]:
+            if pattern in result:
+                result = result.replace(pattern, "\n", 1)
+                break
+    
+    # Clean up multiple blank lines
+    while "\n\n\n" in result:
+        result = result.replace("\n\n\n", "\n\n")
+    
+    return result.strip()
 
 
 # ----------------------------
@@ -274,6 +545,13 @@ def main():
     ap.add_argument("--config-file", type=Path, help="Explicit JSON file to overlay on baseline (optional).")
 
     ap.add_argument("--set", action="append", default=[], help="Override config keys via dotpath, e.g. --set docling.pipeline_options.do_ocr=false")
+    
+    # Deduplication options
+    ap.add_argument("--no-dedupe", action="store_true", help="Disable repeated header/footer deduplication.")
+    ap.add_argument("--dedupe-min-ratio", type=float, default=0.5, 
+                    help="Minimum page ratio for element to be considered repeated (default: 0.5)")
+    ap.add_argument("--dedupe-tolerance", type=float, default=5.0,
+                    help="Position tolerance in points for deduplication (default: 5.0)")
 
     args = ap.parse_args()
     args.outdir.mkdir(parents=True, exist_ok=True)
@@ -375,10 +653,42 @@ def main():
     doc_dict = doc.export_to_dict()
     md = doc.export_to_markdown()
 
+    # ---- Deduplication ----
+    repeated_refs: Set[str] = set()
+    deduped_doc_dict = doc_dict
+    deduped_md = md
+    
+    if not args.no_dedupe:
+        repeated_refs = find_repeated_elements(
+            doc_dict,
+            min_page_ratio=args.dedupe_min_ratio,
+            position_tolerance=args.dedupe_tolerance,
+        )
+        
+        if repeated_refs:
+            print(f"Found {len(repeated_refs)} repeated element occurrences to deduplicate")
+            
+            # Create deduplicated document dict
+            deduped_doc_dict = deduplicate_document(doc_dict, repeated_refs)
+            
+            # Create deduplicated markdown
+            deduped_md = remove_repeated_from_markdown(md, doc_dict, repeated_refs)
+            
+            # Write deduplication report
+            report = get_deduplication_report(doc_dict, repeated_refs)
+            (run_dir / f"{base}.dedupe_report.txt").write_text(report, encoding="utf-8")
+            print(report)
+
+    # Save original (non-deduplicated) outputs
     (run_dir / f"{base}.json").write_text(json.dumps(doc_dict, ensure_ascii=False, indent=2), encoding="utf-8")
     (run_dir / f"{base}.md").write_text(md, encoding="utf-8")
 
-    layout_md = recover_linebreaks_in_markdown(args.pdf, doc_dict, md)
+    # Save deduplicated outputs
+    (run_dir / f"{base}.deduped.json").write_text(json.dumps(deduped_doc_dict, ensure_ascii=False, indent=2), encoding="utf-8")
+    (run_dir / f"{base}.deduped.md").write_text(deduped_md, encoding="utf-8")
+
+    # Layout recovery on deduplicated markdown
+    layout_md = recover_linebreaks_in_markdown(args.pdf, deduped_doc_dict, deduped_md)
     (run_dir / f"{base}.layout.md").write_text(layout_md, encoding="utf-8")
 
     if config.get("exports", {}).get("hover_viewer", False):
@@ -398,6 +708,13 @@ def main():
                 "used_fallback": used_fallback,
                 "config": config,
                 "docling_status": str(result.status),
+                "deduplication": {
+                    "enabled": not args.no_dedupe,
+                    "min_page_ratio": args.dedupe_min_ratio,
+                    "position_tolerance": args.dedupe_tolerance,
+                    "repeated_elements_found": len(repeated_refs),
+                    "repeated_refs": sorted(repeated_refs),
+                },
                 "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),
             },
             ensure_ascii=False,
