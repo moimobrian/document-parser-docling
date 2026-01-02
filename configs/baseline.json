@@ -1,0 +1,23 @@
+{
+    "docling": {
+        "strict"           : true,
+        "pipeline_options" : {
+            "do_ocr": true,
+            "ocr_options": {
+                "__class__": "docling.datamodel.pipeline_options.TesseractCliOcrOptions",
+                "lang": ["nld", "eng"],
+                "force_full_page_ocr": false,
+                "bitmap_area_threshold": 0.05
+            },
+            "do_table_structure": true,
+            "table_structure_options": {"do_cell_matching": true, "mode": "accurate"},
+            "force_backend_text": false,
+            "generate_parsed_pages": true
+        },
+        "pdf_format_option": {
+            "backend": {"__type__": "docling.backend.docling_parse_v4_backend.DoclingParseV4DocumentBackend"}
+        }
+    },
+    "exports": {"hover_viewer": true},
+    "viewer" : {"render_scale": 2.0}
+}

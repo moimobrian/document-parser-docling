@@ -1,0 +1,15 @@
+{
+  "profile": "baseline",
+  "pipeline": {
+    "do_table_structure": true,
+    "generate_parsed_pages": true,
+    "do_ocr": true
+  },
+  "ocr": {
+    "enabled": false,
+    "lang": ["nld", "eng"],
+    "force_full_page_ocr": false,
+    "bitmap_area_threshold": 0.15
+  },
+  "tables": { "mode": "accurate", "do_cell_matching": true }
+}

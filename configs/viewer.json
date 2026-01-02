@@ -1,0 +1,8 @@
+{
+  "profile" : "baseline",
+  "pipeline": {"do_table_structure": true, "generate_parsed_pages": true, "do_ocr": true},
+  "ocr"     : { "enabled": true, "lang": ["nld", "eng"], "force_full_page_ocr": false, "bitmap_area_threshold": 0.15 },
+  "tables"  : {"mode": "accurate", "do_cell_matching": true},
+  "exports" : {"hover_viewer": true},
+  "viewer"  : {"render_scale": 2.0}
+}

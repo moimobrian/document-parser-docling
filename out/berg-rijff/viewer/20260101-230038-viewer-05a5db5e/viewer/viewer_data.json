@@ -1,0 +1,770 @@
+{
+  "pages": [
+    {
+      "page_no": 1,
+      "img": "pages/page-001.png",
+      "img_w": 1191,
+      "img_h": 1684
+    },
+    {
+      "page_no": 2,
+      "img": "pages/page-002.png",
+      "img_w": 1191,
+      "img_h": 1684
+    },
+    {
+      "page_no": 3,
+      "img": "pages/page-003.png",
+      "img_w": 1191,
+      "img_h": 1684
+    },
+    {
+      "page_no": 4,
+      "img": "pages/page-004.png",
+      "img_w": 1191,
+      "img_h": 1684
+    }
+  ],
+  "items": [
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Rijff Juridisch",
+      "x": 13.055510671702377,
+      "y": 16.17512230747343,
+      "w": 914.3889761911312,
+      "h": 157.64975434416647
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Zwartewaterallee 56",
+      "x": 16.500002026319528,
+      "y": 174.7202796701174,
+      "w": 153.99999338069432,
+      "h": 13.95104895104896
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Zwartewaterallee 56",
+      "x": 142.768,
+      "y": 229.63959999999997,
+      "w": 155.162,
+      "h": 14.786000000000058
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A",
+      "x": 838.758,
+      "y": 229.63959999999997,
+      "w": 215.33199999999988,
+      "h": 80.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "8031 DX Zwolle",
+      "x": 142.768,
+      "y": 251.71960000000013,
+      "w": 117.17600000000002,
+      "h": 14.786000000000058
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "0658947395",
+      "x": 142.768,
+      "y": 273.31960000000004,
+      "w": 95.352,
+      "h": 14.786000000000058
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "info@rijffjuridisch.nl",
+      "x": 142.768,
+      "y": 295.39959999999996,
+      "w": 154.48600000000002,
+      "h": 14.786000000000058
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "K.v.K.: 62088718",
+      "x": 804.3749995828249,
+      "y": 174.72027953342672,
+      "w": 122.37500236403775,
+      "h": 13.95104895104896
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "RECHTBANK Oost-Brabant:",
+      "x": 142.768,
+      "y": 345.71360000000004,
+      "w": 256.70000000000005,
+      "h": 17.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Zaaknummer: 11464946 CV EXPL 24-9251 Eiser: A. Rijff Gedaagde: BTM van den Berg bijgestaan door mr. P.G. Blom",
+      "x": 142.768,
+      "y": 426.4136000000001,
+      "w": 535.664,
+      "h": 98.53800000000001
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Mondelinge behandeling: 12 augustus 2025",
+      "x": 142.768,
+      "y": 560.8136000000002,
+      "w": 392.148,
+      "h": 17.89799999999991
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "_____________________________________________",
+      "x": 142.768,
+      "y": 697.1336000000001,
+      "w": 498.0559999999999,
+      "h": 17.89799999999991
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Geachte griffier,",
+      "x": 142.768,
+      "y": 804.6536000000001,
+      "w": 153.446,
+      "h": 17.898000000000025
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "A. Rijff, juridisch dienstverlener, zendt hierbij het onderstaande in, welk stuk mag worden gekwalificeerd als conclusie van repliek.",
+      "x": 142.768,
+      "y": 859.3736000000001,
+      "w": 794.38,
+      "h": 44.777999999999906
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Inleiding",
+      "x": 142.768,
+      "y": 939.9536,
+      "w": 84.364,
+      "h": 17.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Eiser handhaaft de minnelijke schikking zoals op 21 maart 2025 aan gedaagde is toegezonden, opgenomen in de bijlage. In reactie op het door gedaagde ingediende verweer, merkt eiser het volgende op.",
+      "x": 142.768,
+      "y": 994.7336,
+      "w": 843.116,
+      "h": 71.6579999999999
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Over de inhoud van de dienstverlening",
+      "x": 142.768,
+      "y": 1103.6336000000001,
+      "w": 360.804,
+      "h": 17.54599999999982
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Eiser heeft in opdracht van gedaagde juridische bijstand verleend in een arbeidsrechtelijke kwestie. Dat deze kwestie niet is geëindigd in een succesvol afgeronde onderhandeling tot vaststellingsovereenkomst doet niets af aan het feit dat de verleende diensten - bestaande uit juridische advisering, ",
+      "x": 142.768,
+      "y": 1158.4136,
+      "w": 908.152,
+      "h": 152.298
+    },
+    {
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Dat de uitkomst van de kwestie voor gedaagde onbevredigend is geweest, is geen reden om de betalingsverplichting te ontlopen. Zoals in vrijwel iedere juridische opdracht, geldt ook hier dat geen enkele garantie omtrent de uitkomst kon of mocht worden gegeven. Dit is ook aan gedaagde medegedeeld.",
+      "x": 142.768,
+      "y": 1347.5336000000002,
+      "w": 889.268,
+      "h": 98.53799999999978
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Rijff Juridisch",
+      "x": 13.055510671702377,
+      "y": 16.17512230747343,
+      "w": 914.3889761911312,
+      "h": 157.64975434416647
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Zwartewaterallee 56",
+      "x": 16.500002026319528,
+      "y": 174.7202796701174,
+      "w": 153.99999338069432,
+      "h": 13.95104895104896
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "K.v.K.: 62088718",
+      "x": 804.3749995828249,
+      "y": 174.72027953342672,
+      "w": 122.37500236403775,
+      "h": 13.95104895104896
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Zwartewaterallee 56 8031 DX Zwolle 0658947395 info@rijffjuridisch.nl",
+      "x": 142.768,
+      "y": 229.63959999999997,
+      "w": 155.162,
+      "h": 80.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Over de overeenkomst en algemene voorwaarden",
+      "x": 142.768,
+      "y": 372.59360000000015,
+      "w": 465.8299999999999,
+      "h": 17.54599999999982
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Gedaagde beroept zich op vermeende advertenties van internet en/of onduidelijkheden in de overeenkomst en voorwaarden. Eiser wijst erop dat sprake was van een uitdrukkelijk overeengekomen opdracht, schriftelijk vastgelegd, waarin transparant is aangegeven tegen welk tarief en onder welke voorwaarden",
+      "x": 142.768,
+      "y": 427.3736000000001,
+      "w": 912.142,
+      "h": 125.41799999999989
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Over het inzenden van gedaagde",
+      "x": 142.768,
+      "y": 590.0336,
+      "w": 306.77,
+      "h": 17.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Gedaagde heeft een groot aantal niet-relevante screenshots en verwijzingen overgelegd die betrekking hebben op algemene informatie van internet, niet van toepassing op de onderhavige zaak. Deze stukken zijn niet van toepassing op de concrete afspraken en prestaties tussen partijen. Het beroep hierop",
+      "x": 142.768,
+      "y": 644.8136000000002,
+      "w": 902.694,
+      "h": 98.5379999999999
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Over het schikkingsvoorstel",
+      "x": 142.768,
+      "y": 780.1136,
+      "w": 258.33399999999995,
+      "h": 17.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Op 21 maart 2025 heeft eiser - zonder erkenning van enig standpunt van gedaagde - een buitengerechtelijk schikkingsvoorstel gedaan, uit coulance, met het oog op finale kwijting als bedoeld in artikel 6:160 BW. Dit voorstel hield in betaling van € 689,18, zijnde 50% van de oorspronkelijke vordering, ",
+      "x": 142.768,
+      "y": 834.8936000000001,
+      "w": 911.172,
+      "h": 152.298
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Procesverloop en verzoek",
+      "x": 142.768,
+      "y": 1023.9536,
+      "w": 242.092,
+      "h": 17.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "In de dagvaarding is reeds verzocht om de procedure schriftelijk voort te zetten zonder comparitie. Bij deze verzoek ik de rechtbank dit schrijven, waarin de onderhavige reactie is vervat, te kwalificeren als conclusie van repliek. Eiser verzoekt de rechtbank tevens om gedaagde, BTM van den Berg, in",
+      "x": 142.768,
+      "y": 1078.7336,
+      "w": 905.546,
+      "h": 125.41800000000012
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Slotsom",
+      "x": 142.768,
+      "y": 1241.3936,
+      "w": 78.97200000000001,
+      "h": 17.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "Eiser handhaaft zijn vordering tot betaling van het openstaande bedrag van € 689,18 (zijnde de helft van het oorspronkelijke bedrag van € 1.378,35), vermeerderd met wettelijke rente vanaf de vervaldatum en buitengerechtelijke incassokosten conform het Besluit vergoeding voor buitengerechtelijke inca",
+      "x": 142.768,
+      "y": 1296.1736,
+      "w": 889.482,
+      "h": 98.53800000000001
+    },
+    {
+      "kind": "text",
+      "page_no": 2,
+      "label": "text",
+      "text": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A",
+      "x": 838.758,
+      "y": 229.63959999999997,
+      "w": 215.33199999999988,
+      "h": 80.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Rijff Juridisch",
+      "x": 13.055510671702377,
+      "y": 16.17512230747343,
+      "w": 914.3889761911312,
+      "h": 157.64975434416647
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Zwartewaterallee 56",
+      "x": 16.500002026319528,
+      "y": 174.7202796701174,
+      "w": 153.99999338069432,
+      "h": 13.95104895104896
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "K.v.K.: 62088718",
+      "x": 804.3749995828249,
+      "y": 174.72027953342672,
+      "w": 122.37500236403775,
+      "h": 13.95104895104896
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Zwartewaterallee 56",
+      "x": 142.768,
+      "y": 229.63959999999997,
+      "w": 155.162,
+      "h": 14.786000000000058
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "8031 DX Zwolle",
+      "x": 142.768,
+      "y": 251.71960000000013,
+      "w": 117.17600000000002,
+      "h": 14.786000000000058
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "0658947395",
+      "x": 142.768,
+      "y": 273.31960000000004,
+      "w": 95.352,
+      "h": 14.786000000000058
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "info@rijffjuridisch.nl",
+      "x": 142.768,
+      "y": 295.39959999999996,
+      "w": 154.48600000000002,
+      "h": 14.786000000000058
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Eiser verzoekt de rechtbank:",
+      "x": 142.768,
+      "y": 399.5336,
+      "w": 256.014,
+      "h": 17.89800000000014
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Gedaagde te veroordelen tot betaling van € 689,18;",
+      "x": 178.768,
+      "y": 454.2536,
+      "w": 498.25199999999995,
+      "h": 17.89800000000014
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Te vermeerderen met wettelijke rente ex art. 6:119 BW vanaf de vervaldatum van de factuur;",
+      "x": 178.768,
+      "y": 481.1336000000001,
+      "w": 866.806,
+      "h": 17.89799999999991
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Te vermeerderen met buitengerechtelijke incassokosten ad.;",
+      "x": 178.768,
+      "y": 508.0136,
+      "w": 577.67,
+      "h": 17.89800000000014
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Gedaagde toe te laten tot het nemen van een conclusie van dupliek.",
+      "x": 178.768,
+      "y": 534.8936000000001,
+      "w": 643.196,
+      "h": 17.89799999999991
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Aldus ingediend, 29 juli 2025",
+      "x": 142.768,
+      "y": 589.5536,
+      "w": 158.056,
+      "h": 44.42600000000016
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Namens eiser,",
+      "x": 142.768,
+      "y": 670.1936000000001,
+      "w": 135.92600000000002,
+      "h": 17.95799999999997
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "Alle rechten, weren en plichten voorbehouden.",
+      "x": 142.768,
+      "y": 832.4936000000001,
+      "w": 427.802,
+      "h": 17.89799999999991
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "A. Rijff",
+      "x": 178.768,
+      "y": 1075.8536,
+      "w": 80.73600000000002,
+      "h": 17.89800000000014
+    },
+    {
+      "kind": "text",
+      "page_no": 3,
+      "label": "text",
+      "text": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A",
+      "x": 838.758,
+      "y": 229.63959999999997,
+      "w": 215.33199999999988,
+      "h": 80.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "Rijff Juridisch Zwartewaterallee 56 K.v.K.: 62088718 8031 DX Zwolle BTW: NL001122706B15",
+      "x": 91.1551629230612,
+      "y": 21.427851771944688,
+      "w": 918.4571126302084,
+      "h": 191.2388152016706
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "Zwartewaterallee 56 8031 DX Zwolle 0658947395 info@rijffjuridisch.nl",
+      "x": 142.768,
+      "y": 229.63959999999997,
+      "w": 155.162,
+      "h": 80.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A",
+      "x": 838.758,
+      "y": 229.63959999999997,
+      "w": 215.33199999999988,
+      "h": 80.54600000000005
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "Bijlage:",
+      "x": 142.768,
+      "y": 348.1736000000001,
+      "w": 73.826,
+      "h": 17.89799999999991
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "De zaak is gepauzeerd, er worden geen brieven, e-mails, sms berichten verzonden of belacties uitgevoerd.",
+      "x": 169.60467115459628,
+      "y": 398.66666650022535,
+      "w": 660.1278889973958,
+      "h": 14.981541951497547
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "2 sep 2024",
+      "x": 881.2230725392333,
+      "y": 361.84225150581483,
+      "w": 71.61199442545569,
+      "h": 13.90507380167628
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "Bericht van Riff Juridisch",
+      "x": 108.08139851247059,
+      "y": 476.6666669858173,
+      "w": 219.48836263020837,
+      "h": 32.0
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "Geachte heer van de Berg,",
+      "x": 169.60465736437888,
+      "y": 517.9999999792904,
+      "w": 166.27906290690103,
+      "h": 13.596090952555642
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "28 aug 2024",
+      "x": 871.2836838211666,
+      "y": 479.9826734904382,
+      "w": 81.5140279134115,
+      "h": 13.519995371500954
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "Nogmaals hartelijk dank voor uw reactie en uw feedback met betrekking tot de factuur en dienstverlening. Ik begrijp dat u",
+      "x": 169.60465085495443,
+      "y": 546.5472312876909,
+      "w": 756.5697428385415,
+      "h": 14.951140085855968
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "uw zorgen en standpunten hebt gedeeld en wil u laten weten dat wij uw feedback serieus hebben genomen. Wij hebben",
+      "x": 169.60466146756525,
+      "y": 563.1596090271046,
+      "w": 746.5930175781249,
+      "h": 14.951140085855968
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "reeds in een eerder schrijven op uw standpunt gereageerd en hebben deze meegewogen in onze beslissing. Desondanks",
+      "x": 169.60466985513585,
+      "y": 579.7719867111437,
+      "w": 753.2441406250001,
+      "h": 14.951140085855968
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "handhaven wij de factuur zoals deze eerder aan u is verstuurd, de dienstverlening waar deze factuur op gebaseerd is, bestaat uit handelingen die telkens na uw toestemming zijn gedaan. Ofwel nadat u weet had van de inhoud van de handeling waar de dienstverlening op toe zag. Wat betreft de door u aang",
+      "x": 166.2790659143018,
+      "y": 598.0000000807672,
+      "w": 751.5813936935589,
+      "h": 111.3485340484799
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "ontvangen van een factuur voor de betreffende en reeds uitgevoerde diensten. Met betrekking tot uw dreigementen om verdere stappen te ondernemen, willen wij benadrukken dat ons kantoor niet ingaat op dreigementen. Wij geloven in een zakelijke afhandeling van deze kwestie.",
+      "x": 167.94186771991858,
+      "y": 711.0097720043032,
+      "w": 741.6046079185869,
+      "h": 61.656894634676405
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "Ik verzoek u dan ook vriendelijk om de openstaande factuur per ommegaande te voldoen. Op verdere communicatie over uw standpunt zal niet worden ingegaan, uw standpunt is voldoende duidelijk.",
+      "x": 167.94184969275724,
+      "y": 785.765472330036,
+      "w": 759.8953450520833,
+      "h": 31.567861293230862
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "Met vriendelijke groet,",
+      "x": 169.6046496534309,
+      "y": 832.0000002217039,
+      "w": 139.67441813151044,
+      "h": 13.570032119750977
+    },
+    {
+      "kind": "text",
+      "page_no": 4,
+      "label": "text",
+      "text": "A. Rijff",
+      "x": 167.94186018225153,
+      "y": 848.6666665346849,
+      "w": 43.232559204101534,
+      "h": 16.83821932474791
+    },
+    {
+      "kind": "picture",
+      "page_no": 1,
+      "label": "picture/0",
+      "text": "",
+      "x": 139.13717651367188,
+      "y": 68.59131622314453,
+      "w": 913.9721984863281,
+      "h": 245.0227279663086
+    },
+    {
+      "kind": "picture",
+      "page_no": 2,
+      "label": "picture/1",
+      "text": "",
+      "x": 141.86883544921875,
+      "y": 71.73014831542969,
+      "w": 911.3787231445312,
+      "h": 151.4984893798828
+    },
+    {
+      "kind": "picture",
+      "page_no": 3,
+      "label": "picture/2",
+      "text": "",
+      "x": 141.67251586914062,
+      "y": 71.64949798583984,
+      "w": 911.4546813964844,
+      "h": 149.79676055908203
+    },
+    {
+      "kind": "picture",
+      "page_no": 3,
+      "label": "picture/3",
+      "text": "",
+      "x": 150.02139282226562,
+      "y": 906.6299438476562,
+      "w": 130.591796875,
+      "h": 102.228759765625
+    },
+    {
+      "kind": "picture",
+      "page_no": 4,
+      "label": "picture/4",
+      "text": "",
+      "x": 140.43276977539062,
+      "y": 69.54771423339844,
+      "w": 913.2510681152344,
+      "h": 243.42027282714844
+    },
+    {
+      "kind": "picture",
+      "page_no": 4,
+      "label": "picture/5",
+      "text": "",
+      "x": 148.98463439941406,
+      "y": 407.78228759765625,
+      "w": 858.7213592529297,
+      "h": 559.7823486328125
+    }
+  ]
+}

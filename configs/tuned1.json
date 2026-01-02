@@ -1,0 +1,5 @@
+{
+    "docling": {
+        "pipeline_options": { "ocr_options": {"force_full_page_ocr": true} }
+    }
+}

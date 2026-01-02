@@ -1,0 +1,2137 @@
+{
+  "schema_name": "DoclingDocument",
+  "version": "1.8.0",
+  "name": "berg-rijff",
+  "origin": {
+    "mimetype": "application/pdf",
+    "binary_hash": 3667392399252784311,
+    "filename": "berg-rijff.pdf"
+  },
+  "furniture": {
+    "self_ref": "#/furniture",
+    "children": [],
+    "content_layer": "furniture",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "body": {
+    "self_ref": "#/body",
+    "children": [
+      {
+        "$ref": "#/pictures/0"
+      },
+      {
+        "$ref": "#/texts/5"
+      },
+      {
+        "$ref": "#/texts/6"
+      },
+      {
+        "$ref": "#/texts/7"
+      },
+      {
+        "$ref": "#/texts/8"
+      },
+      {
+        "$ref": "#/texts/9"
+      },
+      {
+        "$ref": "#/texts/10"
+      },
+      {
+        "$ref": "#/texts/11"
+      },
+      {
+        "$ref": "#/texts/12"
+      },
+      {
+        "$ref": "#/texts/13"
+      },
+      {
+        "$ref": "#/texts/14"
+      },
+      {
+        "$ref": "#/texts/15"
+      },
+      {
+        "$ref": "#/pictures/1"
+      },
+      {
+        "$ref": "#/texts/16"
+      },
+      {
+        "$ref": "#/texts/17"
+      },
+      {
+        "$ref": "#/texts/18"
+      },
+      {
+        "$ref": "#/texts/19"
+      },
+      {
+        "$ref": "#/texts/20"
+      },
+      {
+        "$ref": "#/texts/21"
+      },
+      {
+        "$ref": "#/texts/22"
+      },
+      {
+        "$ref": "#/texts/23"
+      },
+      {
+        "$ref": "#/texts/24"
+      },
+      {
+        "$ref": "#/texts/25"
+      },
+      {
+        "$ref": "#/texts/26"
+      },
+      {
+        "$ref": "#/groups/0"
+      },
+      {
+        "$ref": "#/pictures/2"
+      },
+      {
+        "$ref": "#/texts/28"
+      },
+      {
+        "$ref": "#/texts/29"
+      },
+      {
+        "$ref": "#/texts/30"
+      },
+      {
+        "$ref": "#/texts/31"
+      },
+      {
+        "$ref": "#/texts/32"
+      },
+      {
+        "$ref": "#/groups/1"
+      },
+      {
+        "$ref": "#/texts/37"
+      },
+      {
+        "$ref": "#/texts/38"
+      },
+      {
+        "$ref": "#/texts/39"
+      },
+      {
+        "$ref": "#/pictures/3"
+      },
+      {
+        "$ref": "#/groups/2"
+      },
+      {
+        "$ref": "#/groups/3"
+      },
+      {
+        "$ref": "#/pictures/4"
+      },
+      {
+        "$ref": "#/texts/45"
+      },
+      {
+        "$ref": "#/pictures/5"
+      }
+    ],
+    "content_layer": "body",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "groups": [
+    {
+      "self_ref": "#/groups/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/27"
+        }
+      ],
+      "content_layer": "body",
+      "name": "group",
+      "label": "key_value_area"
+    },
+    {
+      "self_ref": "#/groups/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/33"
+        },
+        {
+          "$ref": "#/texts/34"
+        },
+        {
+          "$ref": "#/texts/35"
+        },
+        {
+          "$ref": "#/texts/36"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/40"
+        }
+      ],
+      "content_layer": "body",
+      "name": "group",
+      "label": "key_value_area"
+    },
+    {
+      "self_ref": "#/groups/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/41"
+        }
+      ],
+      "content_layer": "body",
+      "name": "group",
+      "label": "key_value_area"
+    }
+  ],
+  "texts": [
+    {
+      "self_ref": "#/texts/0",
+      "parent": {
+        "$ref": "#/pictures/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 727.0699705078125,
+            "r": 148.965,
+            "b": 719.6769705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            19
+          ]
+        }
+      ],
+      "orig": "Zwartewaterallee 56",
+      "text": "Zwartewaterallee 56"
+    },
+    {
+      "self_ref": "#/texts/1",
+      "parent": {
+        "$ref": "#/pictures/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 419.379,
+            "t": 727.0699705078125,
+            "r": 527.045,
+            "b": 686.7969705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            75
+          ]
+        }
+      ],
+      "orig": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A",
+      "text": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A"
+    },
+    {
+      "self_ref": "#/texts/2",
+      "parent": {
+        "$ref": "#/pictures/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 716.0299705078124,
+            "r": 129.972,
+            "b": 708.6369705078124,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            14
+          ]
+        }
+      ],
+      "orig": "8031 DX Zwolle",
+      "text": "8031 DX Zwolle"
+    },
+    {
+      "self_ref": "#/texts/3",
+      "parent": {
+        "$ref": "#/pictures/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 705.2299705078125,
+            "r": 119.06,
+            "b": 697.8369705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "0658947395",
+      "text": "0658947395"
+    },
+    {
+      "self_ref": "#/texts/4",
+      "parent": {
+        "$ref": "#/pictures/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 694.1899705078125,
+            "r": 148.627,
+            "b": 686.7969705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            22
+          ]
+        }
+      ],
+      "orig": "info@rijffjuridisch.nl",
+      "text": "info@rijffjuridisch.nl"
+    },
+    {
+      "self_ref": "#/texts/5",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 669.0329705078125,
+            "r": 199.734,
+            "b": 660.2599705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            23
+          ]
+        }
+      ],
+      "orig": "RECHTBANK Oost-Brabant:",
+      "text": "RECHTBANK Oost-Brabant:",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/6",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 628.6829705078125,
+            "r": 339.216,
+            "b": 579.4139705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            109
+          ]
+        }
+      ],
+      "orig": "Zaaknummer: 11464946 CV EXPL 24-9251 Eiser: A. Rijff Gedaagde: BTM van den Berg bijgestaan door mr. P.G. Blom",
+      "text": "Zaaknummer: 11464946 CV EXPL 24-9251 Eiser: A. Rijff Gedaagde: BTM van den Berg bijgestaan door mr. P.G. Blom"
+    },
+    {
+      "self_ref": "#/texts/7",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 561.4829705078124,
+            "r": 267.458,
+            "b": 552.5339705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            40
+          ]
+        }
+      ],
+      "orig": "Mondelinge behandeling: 12 augustus 2025",
+      "text": "Mondelinge behandeling: 12 augustus 2025"
+    },
+    {
+      "self_ref": "#/texts/8",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 493.32297050781244,
+            "r": 320.412,
+            "b": 484.3739705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            45
+          ]
+        }
+      ],
+      "orig": "_____________________________________________",
+      "text": "_____________________________________________",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/9",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 439.56297050781245,
+            "r": 148.107,
+            "b": 430.61397050781244,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "Geachte griffier,",
+      "text": "Geachte griffier,"
+    },
+    {
+      "self_ref": "#/texts/10",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 412.20297050781244,
+            "r": 468.574,
+            "b": 389.8139705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            133
+          ]
+        }
+      ],
+      "orig": "A. Rijff, juridisch dienstverlener, zendt hierbij het onderstaande in, welk stuk mag worden gekwalificeerd als conclusie van repliek.",
+      "text": "A. Rijff, juridisch dienstverlener, zendt hierbij het onderstaande in, welk stuk mag worden gekwalificeerd als conclusie van repliek."
+    },
+    {
+      "self_ref": "#/texts/11",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 371.9129705078125,
+            "r": 113.566,
+            "b": 363.13997050781245,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            9
+          ]
+        }
+      ],
+      "orig": "Inleiding",
+      "text": "Inleiding",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/12",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 344.5229705078125,
+            "r": 492.942,
+            "b": 308.69397050781254,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            197
+          ]
+        }
+      ],
+      "orig": "Eiser handhaaft de minnelijke schikking zoals op 21 maart 2025 aan gedaagde is toegezonden, opgenomen in de bijlage. In reactie op het door gedaagde ingediende verweer, merkt eiser het volgende op.",
+      "text": "Eiser handhaaft de minnelijke schikking zoals op 21 maart 2025 aan gedaagde is toegezonden, opgenomen in de bijlage. In reactie op het door gedaagde ingediende verweer, merkt eiser het volgende op."
+    },
+    {
+      "self_ref": "#/texts/13",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 290.07297050781244,
+            "r": 251.786,
+            "b": 281.29997050781253,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            37
+          ]
+        }
+      ],
+      "orig": "Over de inhoud van de dienstverlening",
+      "text": "Over de inhoud van de dienstverlening",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/14",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 262.68297050781246,
+            "r": 525.46,
+            "b": 186.53397050781246,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            508
+          ]
+        }
+      ],
+      "orig": "Eiser heeft in opdracht van gedaagde juridische bijstand verleend in een arbeidsrechtelijke kwestie. Dat deze kwestie niet is geëindigd in een succesvol afgeronde onderhandeling tot vaststellingsovereenkomst doet niets af aan het feit dat de verleende diensten - bestaande uit juridische advisering, dossierstudie, correspondentie en onderhandeling - daadwerkelijk zijn verricht. Op basis van artikel 7:405 BW en de gesloten overeenkomst is gedaagde gehouden de overeengekomen vergoeding daarvoor te voldoen.",
+      "text": "Eiser heeft in opdracht van gedaagde juridische bijstand verleend in een arbeidsrechtelijke kwestie. Dat deze kwestie niet is geëindigd in een succesvol afgeronde onderhandeling tot vaststellingsovereenkomst doet niets af aan het feit dat de verleende diensten - bestaande uit juridische advisering, dossierstudie, correspondentie en onderhandeling - daadwerkelijk zijn verricht. Op basis van artikel 7:405 BW en de gesloten overeenkomst is gedaagde gehouden de overeengekomen vergoeding daarvoor te voldoen."
+    },
+    {
+      "self_ref": "#/texts/15",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.384,
+            "t": 168.1229705078124,
+            "r": 516.018,
+            "b": 118.8539705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            296
+          ]
+        }
+      ],
+      "orig": "Dat de uitkomst van de kwestie voor gedaagde onbevredigend is geweest, is geen reden om de betalingsverplichting te ontlopen. Zoals in vrijwel iedere juridische opdracht, geldt ook hier dat geen enkele garantie omtrent de uitkomst kon of mocht worden gegeven. Dit is ook aan gedaagde medegedeeld.",
+      "text": "Dat de uitkomst van de kwestie voor gedaagde onbevredigend is geweest, is geen reden om de betalingsverplichting te ontlopen. Zoals in vrijwel iedere juridische opdracht, geldt ook hier dat geen enkele garantie omtrent de uitkomst kon of mocht worden gegeven. Dit is ook aan gedaagde medegedeeld."
+    },
+    {
+      "self_ref": "#/texts/16",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 727.0699705078125,
+            "r": 148.965,
+            "b": 686.7969705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            68
+          ]
+        }
+      ],
+      "orig": "Zwartewaterallee 56 8031 DX Zwolle 0658947395 info@rijffjuridisch.nl",
+      "text": "Zwartewaterallee 56 8031 DX Zwolle 0658947395 info@rijffjuridisch.nl"
+    },
+    {
+      "self_ref": "#/texts/17",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 655.5929705078124,
+            "r": 304.299,
+            "b": 646.8199705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            44
+          ]
+        }
+      ],
+      "orig": "Over de overeenkomst en algemene voorwaarden",
+      "text": "Over de overeenkomst en algemene voorwaarden",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/18",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 628.2029705078124,
+            "r": 527.455,
+            "b": 565.4939705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            394
+          ]
+        }
+      ],
+      "orig": "Gedaagde beroept zich op vermeende advertenties van internet en/of onduidelijkheden in de overeenkomst en voorwaarden. Eiser wijst erop dat sprake was van een uitdrukkelijk overeengekomen opdracht, schriftelijk vastgelegd, waarin transparant is aangegeven tegen welk tarief en onder welke voorwaarden de werkzaamheden zouden worden verricht. Deze overeenkomst bevatte geen verrassingsclausules.",
+      "text": "Gedaagde beroept zich op vermeende advertenties van internet en/of onduidelijkheden in de overeenkomst en voorwaarden. Eiser wijst erop dat sprake was van een uitdrukkelijk overeengekomen opdracht, schriftelijk vastgelegd, waarin transparant is aangegeven tegen welk tarief en onder welke voorwaarden de werkzaamheden zouden worden verricht. Deze overeenkomst bevatte geen verrassingsclausules."
+    },
+    {
+      "self_ref": "#/texts/19",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 546.8729705078125,
+            "r": 224.769,
+            "b": 538.0999705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            30
+          ]
+        }
+      ],
+      "orig": "Over het inzenden van gedaagde",
+      "text": "Over het inzenden van gedaagde",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/20",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 519.4829705078124,
+            "r": 522.731,
+            "b": 470.21397050781246,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            383
+          ]
+        }
+      ],
+      "orig": "Gedaagde heeft een groot aantal niet-relevante screenshots en verwijzingen overgelegd die betrekking hebben op algemene informatie van internet, niet van toepassing op de onderhavige zaak. Deze stukken zijn niet van toepassing op de concrete afspraken en prestaties tussen partijen. Het beroep hierop is derhalve juridisch niet relevant en dient buiten beschouwing te worden gelaten.",
+      "text": "Gedaagde heeft een groot aantal niet-relevante screenshots en verwijzingen overgelegd die betrekking hebben op algemene informatie van internet, niet van toepassing op de onderhavige zaak. Deze stukken zijn niet van toepassing op de concrete afspraken en prestaties tussen partijen. Het beroep hierop is derhalve juridisch niet relevant en dient buiten beschouwing te worden gelaten."
+    },
+    {
+      "self_ref": "#/texts/21",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 451.8329705078125,
+            "r": 200.551,
+            "b": 443.05997050781247,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "Over het schikkingsvoorstel",
+      "text": "Over het schikkingsvoorstel",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/22",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 424.44297050781245,
+            "r": 526.97,
+            "b": 348.29397050781245,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            577
+          ]
+        }
+      ],
+      "orig": "Op 21 maart 2025 heeft eiser - zonder erkenning van enig standpunt van gedaagde - een buitengerechtelijk schikkingsvoorstel gedaan, uit coulance, met het oog op finale kwijting als bedoeld in artikel 6:160 BW. Dit voorstel hield in betaling van € 689,18, zijnde 50% van de oorspronkelijke vordering, mede om de rechtbank te ontlasten, de zaak af te ronden en niet langer te laten voortlopen dan noodzakelijk is. Ten overvloede dit voorstel bevatte geen proceskosten, juist om tot schikking te komen. Ondanks dit redelijke voorstel is van gedaagde geen enkele reactie ontvangen.",
+      "text": "Op 21 maart 2025 heeft eiser - zonder erkenning van enig standpunt van gedaagde - een buitengerechtelijk schikkingsvoorstel gedaan, uit coulance, met het oog op finale kwijting als bedoeld in artikel 6:160 BW. Dit voorstel hield in betaling van € 689,18, zijnde 50% van de oorspronkelijke vordering, mede om de rechtbank te ontlasten, de zaak af te ronden en niet langer te laten voortlopen dan noodzakelijk is. Ten overvloede dit voorstel bevatte geen proceskosten, juist om tot schikking te komen. Ondanks dit redelijke voorstel is van gedaagde geen enkele reactie ontvangen."
+    },
+    {
+      "self_ref": "#/texts/23",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 329.9129705078125,
+            "r": 192.43,
+            "b": 321.13997050781245,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            24
+          ]
+        }
+      ],
+      "orig": "Procesverloop en verzoek",
+      "text": "Procesverloop en verzoek",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/24",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 302.5229705078125,
+            "r": 524.157,
+            "b": 239.81397050781243,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            420
+          ]
+        }
+      ],
+      "orig": "In de dagvaarding is reeds verzocht om de procedure schriftelijk voort te zetten zonder comparitie. Bij deze verzoek ik de rechtbank dit schrijven, waarin de onderhavige reactie is vervat, te kwalificeren als conclusie van repliek. Eiser verzoekt de rechtbank tevens om gedaagde, BTM van den Berg, in de gelegenheid te stellen tot het opstellen van een conclusie van dupliek, conform de beginselen van hoor en wederhoor.",
+      "text": "In de dagvaarding is reeds verzocht om de procedure schriftelijk voort te zetten zonder comparitie. Bij deze verzoek ik de rechtbank dit schrijven, waarin de onderhavige reactie is vervat, te kwalificeren als conclusie van repliek. Eiser verzoekt de rechtbank tevens om gedaagde, BTM van den Berg, in de gelegenheid te stellen tot het opstellen van een conclusie van dupliek, conform de beginselen van hoor en wederhoor."
+    },
+    {
+      "self_ref": "#/texts/25",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 221.19297050781245,
+            "r": 110.87,
+            "b": 212.41997050781242,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            7
+          ]
+        }
+      ],
+      "orig": "Slotsom",
+      "text": "Slotsom",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/26",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 71.384,
+            "t": 193.80297050781246,
+            "r": 516.125,
+            "b": 144.53397050781246,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            316
+          ]
+        }
+      ],
+      "orig": "Eiser handhaaft zijn vordering tot betaling van het openstaande bedrag van € 689,18 (zijnde de helft van het oorspronkelijke bedrag van € 1.378,35), vermeerderd met wettelijke rente vanaf de vervaldatum en buitengerechtelijke incassokosten conform het Besluit vergoeding voor buitengerechtelijke incassokosten (BIK).",
+      "text": "Eiser handhaaft zijn vordering tot betaling van het openstaande bedrag van € 689,18 (zijnde de helft van het oorspronkelijke bedrag van € 1.378,35), vermeerderd met wettelijke rente vanaf de vervaldatum en buitengerechtelijke incassokosten conform het Besluit vergoeding voor buitengerechtelijke incassokosten (BIK)."
+    },
+    {
+      "self_ref": "#/texts/27",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 419.379,
+            "t": 727.0699705078125,
+            "r": 527.045,
+            "b": 686.7969705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            75
+          ]
+        }
+      ],
+      "orig": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A",
+      "text": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A"
+    },
+    {
+      "self_ref": "#/texts/28",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.384,
+            "t": 727.0699705078125,
+            "r": 148.965,
+            "b": 719.6769705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            19
+          ]
+        }
+      ],
+      "orig": "Zwartewaterallee 56",
+      "text": "Zwartewaterallee 56"
+    },
+    {
+      "self_ref": "#/texts/29",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.384,
+            "t": 716.0299705078124,
+            "r": 129.972,
+            "b": 708.6369705078124,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            14
+          ]
+        }
+      ],
+      "orig": "8031 DX Zwolle",
+      "text": "8031 DX Zwolle"
+    },
+    {
+      "self_ref": "#/texts/30",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.384,
+            "t": 705.2299705078125,
+            "r": 119.06,
+            "b": 697.8369705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "0658947395",
+      "text": "0658947395"
+    },
+    {
+      "self_ref": "#/texts/31",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.384,
+            "t": 694.1899705078125,
+            "r": 148.627,
+            "b": 686.7969705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            22
+          ]
+        }
+      ],
+      "orig": "info@rijffjuridisch.nl",
+      "text": "info@rijffjuridisch.nl"
+    },
+    {
+      "self_ref": "#/texts/32",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.384,
+            "t": 642.1229705078125,
+            "r": 199.391,
+            "b": 633.1739705078124,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            28
+          ]
+        }
+      ],
+      "orig": "Eiser verzoekt de rechtbank:",
+      "text": "Eiser verzoekt de rechtbank:",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/33",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 89.384,
+            "t": 614.7629705078125,
+            "r": 338.51,
+            "b": 605.8139705078124,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            53
+          ]
+        }
+      ],
+      "orig": "1. Gedaagde te veroordelen tot betaling van € 689,18;",
+      "text": "Gedaagde te veroordelen tot betaling van € 689,18;",
+      "enumerated": true,
+      "marker": "1."
+    },
+    {
+      "self_ref": "#/texts/34",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 89.384,
+            "t": 601.3229705078124,
+            "r": 522.787,
+            "b": 592.3739705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            93
+          ]
+        }
+      ],
+      "orig": "2. Te vermeerderen met wettelijke rente ex art. 6:119 BW vanaf de vervaldatum van de factuur;",
+      "text": "Te vermeerderen met wettelijke rente ex art. 6:119 BW vanaf de vervaldatum van de factuur;",
+      "enumerated": true,
+      "marker": "2."
+    },
+    {
+      "self_ref": "#/texts/35",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 89.384,
+            "t": 587.8829705078125,
+            "r": 378.219,
+            "b": 578.9339705078124,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            61
+          ]
+        }
+      ],
+      "orig": "3. Te vermeerderen met buitengerechtelijke incassokosten ad.;",
+      "text": "Te vermeerderen met buitengerechtelijke incassokosten ad.;",
+      "enumerated": true,
+      "marker": "3."
+    },
+    {
+      "self_ref": "#/texts/36",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 89.384,
+            "t": 574.4429705078124,
+            "r": 410.982,
+            "b": 565.4939705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            69
+          ]
+        }
+      ],
+      "orig": "4. Gedaagde toe te laten tot het nemen van een conclusie van dupliek.",
+      "text": "Gedaagde toe te laten tot het nemen van een conclusie van dupliek.",
+      "enumerated": true,
+      "marker": "4."
+    },
+    {
+      "self_ref": "#/texts/37",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.384,
+            "t": 547.1129705078125,
+            "r": 150.412,
+            "b": 524.8999705078124,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            29
+          ]
+        }
+      ],
+      "orig": "Aldus ingediend, 29 juli 2025",
+      "text": "Aldus ingediend, 29 juli 2025",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/38",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.384,
+            "t": 506.79297050781247,
+            "r": 139.347,
+            "b": 497.8139705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            13
+          ]
+        }
+      ],
+      "orig": "Namens eiser,",
+      "text": "Namens eiser,"
+    },
+    {
+      "self_ref": "#/texts/39",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.384,
+            "t": 425.64297050781244,
+            "r": 285.285,
+            "b": 416.6939705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            45
+          ]
+        }
+      ],
+      "orig": "Alle rechten, weren en plichten voorbehouden.",
+      "text": "Alle rechten, weren en plichten voorbehouden."
+    },
+    {
+      "self_ref": "#/texts/40",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 89.384,
+            "t": 303.96297050781254,
+            "r": 129.752,
+            "b": 295.0139705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            8
+          ]
+        }
+      ],
+      "orig": "A. Rijff",
+      "text": "A. Rijff"
+    },
+    {
+      "self_ref": "#/texts/41",
+      "parent": {
+        "$ref": "#/groups/3"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 419.379,
+            "t": 727.0699705078125,
+            "r": 527.045,
+            "b": 686.7969705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            75
+          ]
+        }
+      ],
+      "orig": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A",
+      "text": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A"
+    },
+    {
+      "self_ref": "#/texts/42",
+      "parent": {
+        "$ref": "#/pictures/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 71.384,
+            "t": 727.0699705078125,
+            "r": 148.965,
+            "b": 686.7969705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            68
+          ]
+        }
+      ],
+      "orig": "Zwartewaterallee 56 8031 DX Zwolle 0658947395 info@rijffjuridisch.nl",
+      "text": "Zwartewaterallee 56 8031 DX Zwolle 0658947395 info@rijffjuridisch.nl"
+    },
+    {
+      "self_ref": "#/texts/43",
+      "parent": {
+        "$ref": "#/pictures/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 419.379,
+            "t": 727.0699705078125,
+            "r": 527.045,
+            "b": 686.7969705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            75
+          ]
+        }
+      ],
+      "orig": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A",
+      "text": "K.v.K.: 62088718 BTW: NL001122706B15 IBAN: NL18INGB0634907182 BIC: INGBNL2A"
+    },
+    {
+      "self_ref": "#/texts/44",
+      "parent": {
+        "$ref": "#/pictures/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 95.66666666666667,
+            "t": 804.8897705078125,
+            "r": 228.0,
+            "b": 729.8897705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            5
+          ]
+        }
+      ],
+      "orig": "Rijff",
+      "text": "Rijff",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/45",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 71.384,
+            "t": 667.8029705078125,
+            "r": 108.297,
+            "b": 658.8539705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            8
+          ]
+        }
+      ],
+      "orig": "Bijlage:",
+      "text": "Bijlage:"
+    },
+    {
+      "self_ref": "#/texts/46",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 76.0,
+            "t": 635.8897705078125,
+            "r": 91.66666666666667,
+            "b": 619.8897705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1
+          ]
+        }
+      ],
+      "orig": "o",
+      "text": "o"
+    },
+    {
+      "self_ref": "#/texts/47",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 99.33333333333333,
+            "t": 634.2231038411459,
+            "r": 156.33333333333334,
+            "b": 626.8897705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            15
+          ]
+        }
+      ],
+      "orig": "Zaak gepauzeerd",
+      "text": "Zaak gepauzeerd",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/48",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 462.3333333333333,
+            "t": 633.8897705078125,
+            "r": 498.0,
+            "b": 626.8897705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            9
+          ]
+        }
+      ],
+      "orig": "2sep 2024",
+      "text": "2sep 2024"
+    },
+    {
+      "self_ref": "#/texts/49",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 107.33333333333333,
+            "t": 614.8897705078125,
+            "r": 435.6666666666667,
+            "b": 607.8897705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            104
+          ]
+        }
+      ],
+      "orig": "De zaak is gepauzeerd, er worden geen brieven, e-mails, sms berichten verzonden of belacties uitgevoerd.",
+      "text": "De zaak is gepauzeerd, er worden geen brieven, e-mails, sms berichten verzonden of belacties uitgevoerd."
+    },
+    {
+      "self_ref": "#/texts/50",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 74.66666666666666,
+            "t": 577.8897705078125,
+            "r": 91.66666666666667,
+            "b": 559.5564371744791,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "oo",
+      "text": "oo"
+    },
+    {
+      "self_ref": "#/texts/51",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 99.66666666666667,
+            "t": 577.5564371744791,
+            "r": 184.33333333333334,
+            "b": 566.2231038411459,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "Bericht van Rijff Juridisch",
+      "text": "Bericht van Rijff Juridisch",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/52",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 457.6666666666667,
+            "t": 574.5564371744791,
+            "r": 498.0,
+            "b": 567.8897705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            11
+          ]
+        }
+      ],
+      "orig": "28 aug 2024",
+      "text": "28 aug 2024"
+    },
+    {
+      "self_ref": "#/texts/53",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 107.0,
+            "t": 555.5564371744792,
+            "r": 188.33333333333334,
+            "b": 548.5564371744792,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            25
+          ]
+        }
+      ],
+      "orig": "Geachte heer van de Berg,",
+      "text": "Geachte heer van de Berg,"
+    },
+    {
+      "self_ref": "#/texts/54",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 107.0,
+            "t": 541.5564371744792,
+            "r": 484.3333333333333,
+            "b": 491.5564371744792,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            623
+          ]
+        }
+      ],
+      "orig": "Nogmaals hartelijk dank voor uw reactie en uw feedback met betrekking tot de factuur en dienstverlening. Ik begrijp dat u uw zorgen en standpunten hebt gedeeld en wil u laten weten dat wij uw feedback serieus hebben genomen. Wij hebben reeds in een eerder schrijven op uw standpunt gereageerd en hebben deze meegewogen in onze beslissing. Desondanks handhaven wij de factuur zoals deze eerder aan u is verstuurd, de dienstverlening waar deze factuur op gebaseerd is, bestaat uit handelingen die telkens na uw toestemming zijn gedaan. Ofwel nadat u weet had van de inhoud van de handeling waar de dienstverlening op toe zag.",
+      "text": "Nogmaals hartelijk dank voor uw reactie en uw feedback met betrekking tot de factuur en dienstverlening. Ik begrijp dat u uw zorgen en standpunten hebt gedeeld en wil u laten weten dat wij uw feedback serieus hebben genomen. Wij hebben reeds in een eerder schrijven op uw standpunt gereageerd en hebben deze meegewogen in onze beslissing. Desondanks handhaven wij de factuur zoals deze eerder aan u is verstuurd, de dienstverlening waar deze factuur op gebaseerd is, bestaat uit handelingen die telkens na uw toestemming zijn gedaan. Ofwel nadat u weet had van de inhoud van de handeling waar de dienstverlening op toe zag."
+    },
+    {
+      "self_ref": "#/texts/55",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 106.66666666666667,
+            "t": 484.2231038411458,
+            "r": 479.6666666666667,
+            "b": 451.5564371744792,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            422
+          ]
+        }
+      ],
+      "orig": "Wat betreft de door u aangehaalde termijn: in uw schrijven van 15 augustus heeft u de factuur reeds erkend door ons te wijzen op, zoals in het begin van onze samenwerking overeen is gekomen, een betalingstermijn van twee weken. Wij hebben deze termijn na uw email in acht genomen. Uw verzoek om een uren overzicht is geen vrijbrief voor het niet ontvangen van een factuur voor de betreffende en reeds uitgevoerde diensten.",
+      "text": "Wat betreft de door u aangehaalde termijn: in uw schrijven van 15 augustus heeft u de factuur reeds erkend door ons te wijzen op, zoals in het begin van onze samenwerking overeen is gekomen, een betalingstermijn van twee weken. Wij hebben deze termijn na uw email in acht genomen. Uw verzoek om een uren overzicht is geen vrijbrief voor het niet ontvangen van een factuur voor de betreffende en reeds uitgevoerde diensten."
+    },
+    {
+      "self_ref": "#/texts/56",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 107.0,
+            "t": 443.8897705078125,
+            "r": 475.6666666666667,
+            "b": 428.5564371744792,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            195
+          ]
+        }
+      ],
+      "orig": "Met betrekking tot uw dreigementen om verdere stappen te ondernemen, willen wij benadrukken dat ons kantoor niet ingaat op dreigementen. Wij geloven in een zakelijke afhandeling van deze kwestie.",
+      "text": "Met betrekking tot uw dreigementen om verdere stappen te ondernemen, willen wij benadrukken dat ons kantoor niet ingaat op dreigementen. Wij geloven in een zakelijke afhandeling van deze kwestie."
+    },
+    {
+      "self_ref": "#/texts/57",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 107.0,
+            "t": 421.2231038411458,
+            "r": 484.6666666666667,
+            "b": 405.5564371744792,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            190
+          ]
+        }
+      ],
+      "orig": "Ik verzoek u dan ook vriendelijk om de openstaande factuur per ommegaande te voldoen. Op verdere communicatie over uw standpunt zal niet worden ingegaan, uw standpunt is voldoende duidelijk.",
+      "text": "Ik verzoek u dan ook vriendelijk om de openstaande factuur per ommegaande te voldoen. Op verdere communicatie over uw standpunt zal niet worden ingegaan, uw standpunt is voldoende duidelijk."
+    },
+    {
+      "self_ref": "#/texts/58",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 107.33333333333333,
+            "t": 398.2231038411458,
+            "r": 176.0,
+            "b": 391.2231038411458,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            23
+          ]
+        }
+      ],
+      "orig": "Met vriendelijke groet,",
+      "text": "Met vriendelijke groet,"
+    },
+    {
+      "self_ref": "#/texts/59",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 106.66666666666667,
+            "t": 389.5564371744792,
+            "r": 126.66666666666667,
+            "b": 382.5564371744792,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            8
+          ]
+        }
+      ],
+      "orig": "A. Rijff",
+      "text": "A. Rijff"
+    }
+  ],
+  "pictures": [
+    {
+      "self_ref": "#/pictures/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/0"
+        },
+        {
+          "$ref": "#/texts/1"
+        },
+        {
+          "$ref": "#/texts/2"
+        },
+        {
+          "$ref": "#/texts/3"
+        },
+        {
+          "$ref": "#/texts/4"
+        }
+      ],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 69.56858825683594,
+            "t": 807.5941123962402,
+            "r": 526.5546875,
+            "b": 685.0827484130859,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 70.93441772460938,
+            "t": 806.0246963500977,
+            "r": 526.623779296875,
+            "b": 730.2754516601562,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 70.83625793457031,
+            "t": 806.0650215148926,
+            "r": 526.5635986328125,
+            "b": 731.1666412353516,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 75.01069641113281,
+            "t": 388.5747985839844,
+            "r": 140.3065948486328,
+            "b": 337.4604187011719,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/42"
+        },
+        {
+          "$ref": "#/texts/43"
+        },
+        {
+          "$ref": "#/texts/44"
+        }
+      ],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 70.21638488769531,
+            "t": 807.1159133911133,
+            "r": 526.8419189453125,
+            "b": 685.4057769775391,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/5",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/46"
+        },
+        {
+          "$ref": "#/texts/47"
+        },
+        {
+          "$ref": "#/texts/48"
+        },
+        {
+          "$ref": "#/texts/49"
+        },
+        {
+          "$ref": "#/texts/50"
+        },
+        {
+          "$ref": "#/texts/51"
+        },
+        {
+          "$ref": "#/texts/52"
+        },
+        {
+          "$ref": "#/texts/53"
+        },
+        {
+          "$ref": "#/texts/54"
+        },
+        {
+          "$ref": "#/texts/55"
+        },
+        {
+          "$ref": "#/texts/56"
+        },
+        {
+          "$ref": "#/texts/57"
+        },
+        {
+          "$ref": "#/texts/58"
+        },
+        {
+          "$ref": "#/texts/59"
+        }
+      ],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 74.49231719970703,
+            "t": 637.9986267089844,
+            "r": 503.8529968261719,
+            "b": 358.1074523925781,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    }
+  ],
+  "tables": [],
+  "key_value_items": [],
+  "form_items": [],
+  "pages": {
+    "1": {
+      "size": {
+        "width": 595.275634765625,
+        "height": 841.8897705078125
+      },
+      "page_no": 1
+    },
+    "2": {
+      "size": {
+        "width": 595.275634765625,
+        "height": 841.8897705078125
+      },
+      "page_no": 2
+    },
+    "3": {
+      "size": {
+        "width": 595.275634765625,
+        "height": 841.8897705078125
+      },
+      "page_no": 3
+    },
+    "4": {
+      "size": {
+        "width": 595.275634765625,
+        "height": 841.8897705078125
+      },
+      "page_no": 4
+    }
+  }
+}

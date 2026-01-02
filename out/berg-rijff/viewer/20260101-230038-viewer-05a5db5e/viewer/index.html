@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Docling Hover Viewer</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 16px; }
+    .top { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .canvas { position: relative; display: inline-block; border: 1px solid #ddd; }
+    .box { position: absolute; border: 2px solid rgba(0,120,255,0.7); box-sizing: border-box; }
+    .tooltip {
+      position: fixed; pointer-events: none;
+      background: rgba(0,0,0,0.85); color: #fff;
+      padding: 6px 8px; border-radius: 6px; font-size: 12px;
+      max-width: 520px; white-space: pre-wrap; display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <label>Page:
+      <select id="pageSel"></select>
+    </label>
+    <span id="counts"></span>
+  </div>
+  <div class="canvas" id="canvas">
+    <img id="pageImg" />
+  </div>
+  <div class="tooltip" id="tip"></div>
+
+<script>
+(async function(){
+  const data = await fetch("./viewer_data.json").then(r => r.json());
+  const pageSel = document.getElementById("pageSel");
+  const canvas = document.getElementById("canvas");
+  const img = document.getElementById("pageImg");
+  const tip = document.getElementById("tip");
+  const counts = document.getElementById("counts");
+
+  data.pages.forEach(p => {
+    const opt = document.createElement("option");
+    opt.value = p.page_no;
+    opt.textContent = p.page_no;
+    pageSel.appendChild(opt);
+  });
+
+  function showTip(ev, item){
+    tip.style.display = "block";
+    tip.style.left = (ev.clientX + 12) + "px";
+    tip.style.top = (ev.clientY + 12) + "px";
+    tip.textContent = item.kind + " | " + item.label + (item.text ? ("\n\n" + item.text) : "");
+  }
+  function hideTip(){ tip.style.display = "none"; }
+
+  function render(pageNo){
+    Array.from(canvas.querySelectorAll(".box")).forEach(x => x.remove());
+
+    const page = data.pages.find(p => p.page_no == pageNo);
+    img.src = page.img;
+    img.width = page.img_w;
+    img.height = page.img_h;
+
+    const pageItems = data.items.filter(it => it.page_no == pageNo);
+    counts.textContent = `${pageItems.length} items`;
+
+    pageItems.forEach(it => {
+      const d = document.createElement("div");
+      d.className = "box";
+      d.style.left = it.x + "px";
+      d.style.top = it.y + "px";
+      d.style.width = it.w + "px";
+      d.style.height = it.h + "px";
+      d.addEventListener("mousemove", (ev) => showTip(ev, it));
+      d.addEventListener("mouseleave", hideTip);
+      canvas.appendChild(d);
+    });
+  }
+
+  pageSel.addEventListener("change", () => render(parseInt(pageSel.value, 10)));
+  render(parseInt(pageSel.value || "1", 10));
+})();
+</script>
+</body>
+</html>
