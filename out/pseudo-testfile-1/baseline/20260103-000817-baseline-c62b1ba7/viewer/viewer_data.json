@@ -1,0 +1,84 @@
+{
+  "pages": [
+    {
+      "page_no": 1,
+      "img": "pages/page-001.png",
+      "img_w": 1224,
+      "img_h": 1584
+    }
+  ],
+  "items": [
+    {
+      "id": "text/0",
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Chefke Tegelaars Dorpweg 21 5920 BH Zijtaart",
+      "area": 13754.10876000002,
+      "x": 144.0,
+      "y": 148.88799999999992,
+      "w": 177.19799999999998,
+      "h": 77.62000000000012
+    },
+    {
+      "id": "text/1",
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Ikea Eindhoven Ekkersrijt 400 3450 HH Son",
+      "area": 12238.65587999998,
+      "x": 144.0,
+      "y": 265.25800000000004,
+      "w": 157.67399999999998,
+      "h": 77.61999999999989
+    },
+    {
+      "id": "text/2",
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Hoi Ikea Eindhoven,",
+      "area": 3942.692183999993,
+      "x": 144.0,
+      "y": 410.72,
+      "w": 202.87599999999998,
+      "h": 19.43399999999997
+    },
+    {
+      "id": "text/3",
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Hedde gij voor mijn ook nog wa werk? Of nie?",
+      "area": 8834.307719999986,
+      "x": 144.0,
+      "y": 468.90599999999995,
+      "w": 454.58000000000004,
+      "h": 19.43399999999997
+    },
+    {
+      "id": "text/4",
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Houdoe",
+      "area": 1615.5591920000127,
+      "x": 144.0,
+      "y": 527.0899999999999,
+      "w": 83.12200000000001,
+      "h": 19.43600000000015
+    },
+    {
+      "id": "text/5",
+      "kind": "text",
+      "page_no": 1,
+      "label": "text",
+      "text": "Mvg, Chefke",
+      "area": 3676.717968000005,
+      "x": 144.0,
+      "y": 585.276,
+      "w": 75.768,
+      "h": 48.52600000000007
+    }
+  ]
+}

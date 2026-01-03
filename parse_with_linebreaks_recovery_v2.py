@@ -4,6 +4,7 @@ import copy
 import hashlib
 import importlib
 import json
+import re
 import time
 from collections import defaultdict
 from pathlib import Path
@@ -212,6 +213,7 @@ def get_element_by_ref(doc_dict: dict, ref: str) -> Optional[dict]:
     return None
 
 
+
 def extract_header_content(
     doc_dict: dict, 
     first_occurrence_refs: Set[str],
@@ -220,37 +222,79 @@ def extract_header_content(
     """
     Extract text content from first-occurrence header elements.
     Only extracts from PAGE 1 to avoid duplicates from variant headers on other pages.
-    
+
     Returns markdown-formatted header content.
     """
-    header_texts = []
-    seen_texts = set()  # Dedupe by normalized text content
-    
+    header_texts: List[str] = []
+    seen_texts: Set[str] = set()  # Dedupe by normalized text content
+
     # Only process first occurrences from page 1
-    page1_picture_refs = []
-    
+    page1_picture_refs: List[str] = []
+
     for ref in first_occurrence_refs:
         elem = get_element_by_ref(doc_dict, ref)
         if not elem:
             continue
-            
+
         provs = elem.get("prov", [])
         if not provs:
             continue
-            
+
         page_no = provs[0].get("page_no", 0)
         if page_no != 1:
             continue
-        
+
         if "pictures" in ref:
             page1_picture_refs.append(ref)
-    
+
+    def _format_business_info_line(text: str) -> str:
+        """
+        Docling sometimes collapses multi-line business-info blocks into one line, e.g.
+        'K.v.K.: ... BTW: ... IBAN: ... BIC: ...'.
+
+        Split those into separate lines so the header block stays faithful.
+        """
+        s = " ".join(text.split())  # normalize whitespace
+        # Must contain at least 2 of these labels to be worth splitting
+        labels_pat = re.compile(r"(?i)\b(k\.?v\.?k\.?\s*:|btw\s*:|iban\s*:|bic\s*:)")
+
+        matches = list(labels_pat.finditer(s))
+        if len(matches) < 2:
+            return text.strip()
+
+        def canon(label_raw: str) -> str:
+            lr = re.sub(r"\s+", "", label_raw).upper()
+            if lr.startswith("K") and "V" in lr and lr.count("K") >= 2:
+                return "K.v.K.:"
+            if lr.startswith("BTW"):
+                return "BTW:"
+            if lr.startswith("IBAN"):
+                return "IBAN:"
+            if lr.startswith("BIC"):
+                return "BIC:"
+            # Fallback: preserve as-is (trim)
+            return label_raw.strip()
+
+        lines: List[str] = []
+        for i, m in enumerate(matches):
+            start = m.start()
+            end = matches[i + 1].start() if i + 1 < len(matches) else len(s)
+            label_raw = m.group(1)
+            value = s[m.end():end].strip()
+            lines.append(f"{canon(label_raw)} {value}".strip())
+
+        return "\n".join(lines).strip()
+
     def add_text(text: str):
         """Add text if not already seen (by normalized content)."""
-        normalized = text.strip().lower()
+        if not text:
+            return
+
+        formatted = _format_business_info_line(text.strip())
+        normalized = formatted.strip().lower()
         if not normalized or normalized in seen_texts:
             return
-        
+
         # Check if this text contains or is contained by existing texts
         for existing in list(seen_texts):
             if normalized in existing or existing in normalized:
@@ -258,33 +302,33 @@ def extract_header_content(
                     return
                 seen_texts.discard(existing)
                 header_texts[:] = [t for t in header_texts if t.strip().lower() != existing]
-        
+
         seen_texts.add(normalized)
-        header_texts.append(text.strip())
-    
+        header_texts.append(formatted.strip())
+
     # Extract from page 1 pictures' children
     for ref in sorted(page1_picture_refs):
         elem = get_element_by_ref(doc_dict, ref)
         if not elem:
             continue
-        
+
         children = elem.get("children", [])
         for child_ref_obj in children:
             child_ref = child_ref_obj.get("$ref", "")
-            
+
             # Skip if this child is marked as deduplicated
             if child_ref in repeated_refs:
                 continue
-            
+
             child_elem = get_element_by_ref(doc_dict, child_ref)
             if child_elem:
-                text = child_elem.get("text", "").strip()
+                text = (child_elem.get("text") or "").strip()
                 if text:
                     add_text(text)
-    
+
     if not header_texts:
         return ""
-    
+
     # Sort header texts to put company name first, then address, then business info
     def sort_key(text: str) -> tuple:
         text_lower = text.lower()
@@ -307,9 +351,9 @@ def extract_header_content(
         if any(word in text_lower for word in ["k.v.k", "kvk", "btw", "iban", "bic"]):
             return (5, text)
         return (6, text)
-    
+
     header_texts.sort(key=sort_key)
-    
+
     return "\n".join(header_texts)
 
 
@@ -375,6 +419,7 @@ def get_repeated_header_texts(doc_dict: dict, repeated_refs: Set[str]) -> Set[st
     return repeated_texts
 
 
+
 def remove_repeated_from_markdown(
     md: str, 
     doc_dict: dict, 
@@ -384,26 +429,23 @@ def remove_repeated_from_markdown(
     """
     Post-process markdown to:
     1. Remove text from repeated header elements (carefully, avoiding false positives)
-    2. Remove duplicate <!-- image --> markers for repeated header images
+    2. Remove <!-- image --> markers that correspond to repeated header images
+       (deterministically, by mapping markers to picture refs in body order)
     3. Prepend first-occurrence header content at the beginning
     """
     result = md
     image_marker = "<!-- image -->"
-    
-    # Get texts that appear in repeated header elements
+
+    # ----------------------------
+    # 1) Remove repeated header texts
+    # ----------------------------
     repeated_header_texts = get_repeated_header_texts(doc_dict, repeated_refs)
-    
-    # Count pictures for deduplication
-    repeated_picture_count = sum(1 for ref in repeated_refs if "pictures" in ref)
-    
-    # Strategy for text removal: only remove text if it appears as a COMPLETE STANDALONE LINE
-    # This prevents removing "Rijff" from "A. Rijff" or similar cases
-    # We also check that the text is NOT a substring of any body content element
-    
-    # Build set of all body text content (non-header) to avoid false positive removal
-    body_texts = set()
+
+    # Build set of all body text content (non-header) to avoid false-positive removal
+    body_texts: Set[str] = set()
     for idx, elem in enumerate(doc_dict.get("texts", [])):
         ref = f"#/texts/{idx}"
+
         # Skip elements that are in repeated refs (these are header duplicates)
         if ref in repeated_refs:
             continue
@@ -411,93 +453,98 @@ def remove_repeated_from_markdown(
         if ref in first_occurrence_refs:
             continue
         # Skip children of pictures (they're usually header content)
-        parent_ref = elem.get("parent", {}).get("$ref", "")
+        parent_ref = (elem.get("parent") or {}).get("$ref", "")
         if "pictures" in parent_ref:
             continue
-        
-        text = elem.get("text", "").strip()
+
+        text = (elem.get("text") or "").strip()
         if text:
             body_texts.add(text)
-    
+
     # Remove repeated header texts, but ONLY if they appear as standalone lines
-    # AND they are not substrings of body content
-    for repeated_text in repeated_header_texts:
-        # Check if this text is a substring of any body text
+    # Remove ALL occurrences (we re-insert the header block from page 1 anyway).
+    #
+    # Safeguards:
+    # - If the exact text exists as body text, do not remove it.
+    # - For short strings (e.g. 'Rijff'), also do not remove if it appears as a substring
+    #   of any body text (prevents removing from 'A. Rijff').
+    for repeated_text in sorted(repeated_header_texts, key=lambda s: (-len(s), s)):
+        if repeated_text in body_texts:
+            continue
+
         is_substring_of_body = any(
             repeated_text in body_text and repeated_text != body_text
             for body_text in body_texts
         )
-        
-        if is_substring_of_body:
-            # This repeated text appears as part of body content, skip removal
+        if len(repeated_text) < 25 and is_substring_of_body:
             continue
-        
-        # Only remove if it's a complete standalone line
-        standalone_pattern = f"\n{repeated_text}\n"
-        if standalone_pattern in result:
-            result = result.replace(standalone_pattern, "\n", 1)
-    
-    # Handle image markers - remove markers for deduplicated header images
-    if repeated_picture_count > 0 and image_marker in result:
-        # Count how many images should remain
-        total_pictures = len(doc_dict.get("pictures", []))
-        expected_image_count = total_pictures - repeated_picture_count
-        
-        # Split into lines and process
-        lines = result.split("\n")
-        new_lines = []
-        images_kept = 0
-        first_heading_seen = False
-        
-        for line in lines:
-            stripped = line.strip()
-            
-            # Track when we see the first real content heading
-            if stripped.startswith("## ") and not stripped.startswith("## _"):
-                first_heading_seen = True
-            
-            if stripped == image_marker:
-                # Decide whether to keep this image marker
-                if not first_heading_seen:
-                    # Before first heading: keep only the first image (main header image)
-                    if images_kept == 0:
-                        new_lines.append(line)
-                        images_kept += 1
-                    # Skip additional header zone images
-                else:
-                    # After first heading: keep images up to expected count
-                    if images_kept < expected_image_count:
-                        new_lines.append(line)
-                        images_kept += 1
-                    # Skip excess images (likely repeated headers from other pages)
-            else:
-                new_lines.append(line)
-        
-        result = "\n".join(new_lines)
-    
-    # Clean up multiple blank lines
+
+        # Remove any line that equals repeated_text (ignoring surrounding whitespace)
+        pat = re.compile(
+            r"(?m)^[ \t]*" + re.escape(repeated_text.strip()) + r"[ \t]*(?:\r?\n|$)"
+        )
+        result = pat.sub("", result)
+
+    # ----------------------------
+    # 2) Remove image markers for deduplicated header images
+    # ----------------------------
+    # Determine picture refs in the same order as markdown export (body order is the best proxy).
+    picture_flow_refs: List[str] = []
+    for ch in (doc_dict.get("body", {}) or {}).get("children", []) or []:
+        ref = (ch or {}).get("$ref", "")
+        if ref.startswith("#/pictures/"):
+            picture_flow_refs.append(ref)
+
+    if not picture_flow_refs:
+        picture_flow_refs = [f"#/pictures/{i}" for i in range(len(doc_dict.get("pictures", [])))]
+
+    pic_idx = 0
+    new_lines: List[str] = []
+    for line in result.split("\n"):
+        if line.strip() == image_marker:
+            pic_ref = picture_flow_refs[pic_idx] if pic_idx < len(picture_flow_refs) else None
+            pic_idx += 1
+
+            # Drop markers for repeated header images
+            if pic_ref and pic_ref in repeated_refs:
+                continue
+
+            new_lines.append(line)
+        else:
+            new_lines.append(line)
+
+    result = "\n".join(new_lines)
+
+    # ----------------------------
+    # 3) Normalize whitespace
+    # ----------------------------
     while "\n\n\n" in result:
         result = result.replace("\n\n\n", "\n\n")
-    
-    # Extract and prepend header content
+
+    # ----------------------------
+    # 4) Extract and prepend header content
+    # ----------------------------
     header_content = extract_header_content(doc_dict, first_occurrence_refs, repeated_refs)
-    
+
     if header_content:
         # Find where to insert header (after first <!-- image --> if present)
-        if result.strip().startswith(image_marker):
+        stripped = result.lstrip()
+        if stripped.startswith(image_marker):
             marker_pos = result.find(image_marker)
             marker_end = marker_pos + len(image_marker)
             # Insert header content after the image marker, with proper spacing
-            # Add blank line before AND after header content for separation
             result = (
                 result[:marker_end] + 
-                "\n\n" + header_content + "\n" +
+                "\n\n" + header_content + "\n\n" +
                 result[marker_end:]
             )
         else:
-            # Prepend header at the very beginning with spacing
             result = header_content + "\n\n" + result
-    
+
+    # Final cleanup
+    while "\n\n\n" in result:
+        result = result.replace("\n\n\n", "\n\n")
+
     return result.strip()
 
 
